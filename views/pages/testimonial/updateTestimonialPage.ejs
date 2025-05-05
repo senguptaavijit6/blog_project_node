@@ -1,0 +1,226 @@
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<%- include("../../common/head.ejs") %>
+
+    <body class="sb-nav-fixed">
+            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+                <!-- Navbar Brand-->
+                <a class="navbar-brand ps-3" href="/"><%= siteName %></a>
+                <!-- Sidebar Toggle-->
+                <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                        class="fas fa-bars"></i></button>
+                <!-- Navbar Search-->
+                <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Search for blogs"
+                            aria-label="Search for blogs" aria-describedby="btnNavbarSearch" />
+                        <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <!-- Navbar-->
+                <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"><img
+                                src="/uploads/profile_picture/admin/<%= user.image %>" alt="admin-image"
+                                style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;"></a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+                            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div id="layoutSidenav">
+                <div id="layoutSidenav_nav">
+                    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                        <div class="sb-sidenav-menu">
+                            <div class="nav">
+                                <div class="sb-sidenav-menu-heading">Core</div>
+                                <a class="nav-link" href="/admin/">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    Dashboard
+                                </a>
+                                <div class="sb-sidenav-menu-heading">Pages</div>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseLayouts" aria-expanded="false"
+                                    aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                    CMS Management
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="/admin/cms/general">General</a>
+                                        <a class="nav-link" href="/admin/cms/termsCMSPage">Terms</a>
+                                        <a class="nav-link" href="/admin/cms/privacyCMSPage">Privacy Policy</a>
+                                        <a class="nav-link" href="/admin/cms/homeCMSPage">Home</a>
+                                        <a class="nav-link" href="/admin/cms/aboutUsCMSPage">About Us</a>
+                                    </nav>
+                                </div>
+                                
+                                <a class="nav-link" href="/admin/allFAQsPage" >
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-question"></i></div>
+                                    FAQs Management
+                                </a>
+                                <a class="nav-link active bg-success" href="/admin/allTestimonialsPage" >
+                                    <div class="sb-nav-link-icon"><i class="fa-regular fa-comments"></i></div>
+                                    Testimonials
+                                </a>
+                                <a class="nav-link" href="/admin/allCategoriesPage" >
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-icons"></i></div>
+                                    Category
+                                </a>
+                                <a class="nav-link" href="/admin/allTagsPage" >
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
+                                    Tags
+                                </a>
+                                <a class="nav-link" href="/admin/userManagement">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                                    User Management
+                                </a>
+                                <a class="nav-link" href="/admin/getAllComments">
+                                    <div class="sb-nav-link-icon"><i class="fa-regular fa-comment-dots"></i></div>
+                                    All Comments
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sb-sidenav-footer">
+                            <div class="small">Logged in as: <%= user.role %>
+                            </div>
+                            <%= user.firstName + " " + user.lastName %>
+                        </div>
+                    </nav>
+                </div>
+                <div id="layoutSidenav_content">
+                    <main>
+                        <%- include("../../common/alerts.ejs") %>
+                        <section style="background-color: #eee;">
+                            <div class="container py-5">
+                                <h1 class="mt-4">Update Testimonial</h1>
+                                <div class="row">
+                                    <div class="col">
+                                        <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+                                            <ol class="breadcrumb mb-0">
+                                                <li class="breadcrumb-item"><a href="/admin/allTestimonialsPage">Testimonials Management</a></li>
+                                                <li class="breadcrumb-item active" aria-current="page">Update Testimonial</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="card mb-4">
+                                            <div class="card-body">
+                                                <form action="/admin/updateTestimonial/<%= TestimonialData._id %>" method="post" enctype="multipart/form-data">
+                                                    <div style="text-align: center;" class="mb-3">
+                                                        <img src="/uploads/testimonials/<%= TestimonialData.clientImage %>" alt="Client Image" class="rounded-circle img-fluid" style="height: 250px; width: 250px; object-fit: cover;">
+                                                    </div>
+                                                    <div class="mb-3 text-center">
+                                                        <% for(let i=0; i < TestimonialData.clientRating; i++) { %>
+                                                            <i class="fa-solid fa-star" style="color: goldenrod"></i>
+                                                        <% } %>
+                                                        <% for(let i=0; i < (5-TestimonialData.clientRating); i++) { %>
+                                                            <i class="fa-regular fa-star" style="color: black"></i>
+                                                        <% } %>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
+                                                                <input class="form-control" id="inputClientName" type="text"
+                                                                    placeholder="Enter Client Name" name="clientName" value="<%= TestimonialData.clientName %>"/>
+                                                                <label for="inputClientName">Client Name </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
+                                                                <input class="form-control" id="inputClientDesignation" type="text"
+                                                                    placeholder="Enter Client Name" name="clientDesignation" value="<%= TestimonialData.clientDesignation %>" />
+                                                                <label for="inputClientDesignation">Client Designation </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
+                                                                <input class="form-control" id="inputClientDesignation" type="file" accept=".jpg, .jpeg, .png, .gif"
+                                                                    placeholder="Enter Client Name" name="clientImage" />
+                                                                <label for="inputClientDesignation">Change Client Image</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <div class="form-floating mb-3 mb-md-0">
+                                                                <label for="selectStatus" class="pb-1">Choose Testimonial status:</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-floating mb-3 mb-md-0">
+                                                                <select id="selectStatus" name="status"
+                                                                    class="form-control pt-1">
+                                                                    <option value="active" <%= TestimonialData.status==='active' ? 'selected' : '' %>>Active</option>
+                                                                    <option value="inactive" <%= TestimonialData.status==='inactive' ? 'selected' : '' %>>Inactive</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <div class="form-floating mb-3 mb-md-0">
+                                                                <label for="selectRating" class="pb-1">Choose Testimonial status <span style="color: red">*</span></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-floating mb-3 mb-md-0">
+                                                                <select id="selectRating" name="clientRating"
+                                                                    class="form-control pt-1" type="number">
+                                                                    <option disabled selected>Select Rating <span style="color: red">*</span></option>
+                                                                    <option value=1 <%= TestimonialData.clientRating===1 ? 'selected' : '' %>>1</option>
+                                                                    <option value=2 <%= TestimonialData.clientRating===2 ? 'selected' : '' %>>2</option>
+                                                                    <option value=3 <%= TestimonialData.clientRating===3 ? 'selected' : '' %>>3</option>
+                                                                    <option value=4 <%= TestimonialData.clientRating===4 ? 'selected' : '' %>>4</option>
+                                                                    <option value=5 <%= TestimonialData.clientRating===5 ? 'selected' : '' %>>5</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
+                                                                <label for="inputClientMessage" class="form-label">Client Message </label>
+                                                                <textarea row="10" class="form-control" id="inputClientMessage" type="text"
+                                                                    placeholder="Enter Client Name" name="clientMessage" ><%= TestimonialData.clientMessage %></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <button class="btn btn-primary" type="submit">Update Testimonial</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                    <%- include("../../common/footer.ejs") %>
+
+                </div>
+                <%- include("../../common/scripts.ejs") %>
+
+    </body>
+
+    </html>

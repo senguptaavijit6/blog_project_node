@@ -1,0 +1,240 @@
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<%- include("../../common/head.ejs") %>
+<!-- Include jQuery for Searchable Dropdown -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Select2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+
+    <body class="sb-nav-fixed">
+        <%- include("../../common/alerts.ejs") %>
+            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+                <!-- Navbar Brand-->
+                <a class="navbar-brand ps-3" href="/"><%= siteName %></a>
+                <!-- Sidebar Toggle-->
+                <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                        class="fas fa-bars"></i></button>
+                <!-- Navbar Search-->
+                <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Search for blogs"
+                            aria-label="Search for blogs" aria-describedby="btnNavbarSearch" />
+                        <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <!-- Navbar-->
+                <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"><img
+                                src="/assets/img/avatars/<%= user.avatar %>.png" alt="user-avatar"
+                                style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;"></a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/settings/">Settings</a></li>
+                            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div id="layoutSidenav">
+                <div id="layoutSidenav_nav">
+                    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                        <div class="sb-sidenav-menu">
+                            <div class="nav">
+                                <div class="sb-sidenav-menu-heading">Core</div>
+                                <a class="nav-link active bg-success" href="/dashboard">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    Dashboard
+                                </a>
+                                <!-- <div class="sb-sidenav-menu-heading">Pages</div>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseLayouts" aria-expanded="false"
+                                    aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                    CMS Management
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="/admin/cms/generalCMSPage">General</a>
+                                        <a class="nav-link" href="/admin/cms/homeCMSPage">Home</a>
+                                        <a class="nav-link" href="/admin/cms/aboutUsCMSPage">About Us</a>
+                                    </nav>
+                                </div>
+
+                                <a class="nav-link" href="/admin/allFAQsPage">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-question"></i></div>
+                                    FAQ Management
+                                </a>
+                                <a class="nav-link" href="/admin/allTestimonialsPage">
+                                    <div class="sb-nav-link-icon"><i class="fa-regular fa-comments"></i></div>
+                                    Testimonials
+                                </a>
+                                <a class="nav-link" href="/admin/allCategoriesPage">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-icons"></i></div>
+                                    Category
+                                </a>
+                                <a class="nav-link" href="/admin/allTagsPage">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
+                                    Tags
+                                </a> -->
+                                <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    Pages
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                            data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                                            aria-controls="pagesCollapseAuth">
+                                            Authentication
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                            data-bs-parent="#sidenavAccordionPages">
+                                            <nav class="sb-sidenav-menu-nested nav">
+                                                <a class="nav-link" href="login.html">Login</a>
+                                                <a class="nav-link" href="register.html">Register</a>
+                                                <a class="nav-link" href="password.html">Forgot Password</a>
+                                            </nav>
+                                        </div>
+                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                            data-bs-target="#pagesCollapseError" aria-expanded="false"
+                                            aria-controls="pagesCollapseError">
+                                            Error
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                            data-bs-parent="#sidenavAccordionPages">
+                                            <nav class="sb-sidenav-menu-nested nav">
+                                                <a class="nav-link" href="401.html">401 Page</a>
+                                                <a class="nav-link" href="404.html">404 Page</a>
+                                                <a class="nav-link" href="500.html">500 Page</a>
+                                            </nav>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="sb-sidenav-menu-heading">Addons</div>
+                                <a class="nav-link" href="charts.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                    Charts
+                                </a>
+                                <a class="nav-link" href="tables.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Tables
+                                </a> -->
+                            </div>
+                        </div>
+                        <div class="sb-sidenav-footer">
+                            <div class="small">Logged in as: <%= user.role %>
+                            </div>
+                            <%= user.firstName + " " + user.lastName %>
+                        </div>
+                    </nav>
+                </div>
+                <div id="layoutSidenav_content">
+                    <main>
+                        <%- include("../../common/alerts.ejs") %>
+                            <section style="background-color: #eee;">
+                                <div class="container py-5">
+                                    <div class="row">
+                                        <div class="col">
+                                            <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+                                                <ol class="breadcrumb mb-0">
+                                                    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                                                    <li class="breadcrumb-item"><a href="/settings">Settings</a>
+                                                    </li>
+                                                    <li class="breadcrumb-item active" aria-current="page">Site</li>
+                                                </ol>
+                                            </nav>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <a href="/settings/account" class="btn btn-outline-primary">Account</a>
+                                        <a href="/settings/site" class="btn btn-primary">Site</a>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <form action="/updateSiteDetails" method="post">
+                                                        <!-- Timezone Dropdown -->
+                                                        <div class="mb-3">
+                                                            <label for="timezoneSelect" class="form-label">Select
+                                                                Timezone</label>
+                                                            <select class="form-control" id="timezoneSelect"
+                                                                name="timezone" required>
+                                                                <% timezones.map(timezone=> { %>
+                                                                    <option
+                                                                        value="<%= `${timezone.utc}~${timezone.name}` %>" <%= (user.timezone===(`${timezone.utc}~${timezone.name}`)) ? 'selected' : '' %>>
+                                                                        <%= timezone.name %>
+                                                                    </option>
+                                                                    <% }) %>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mt-4 mb-0">
+                                                            <div class="my-3 col-6">
+                                                                <button type="submit" class="btn btn-primary btn-block"
+                                                                    id="submitBtn">Update Timezone</button>
+                                                                <button type="reset"
+                                                                    class="btn btn-secondary btn-block">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <div class="my-3">
+                                                <a href="/logout" class="btn btn-danger">Logout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                    </main>
+                    <%- include("../../common/footer.ejs") %>
+
+                </div>
+                <%- include("../../common/scripts.ejs") %>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+                        crossorigin="anonymous"></script>
+                    <script src="/assets/demo/chart-area-demo.js"></script>
+                    <script src="/assets/demo/chart-bar-demo.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+                        crossorigin="anonymous"></script>
+                    <script src="/js/datatables-simple-demo.js"></script>
+
+                    <!-- Include jQuery and Select2 JS -->
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+                    <script>
+                        // Initialize Select2 for Timezone Dropdown
+                        $(document).ready(function () {
+                            $('#timezoneSelect').select2({
+                                placeholder: "Search Timezone",
+                                allowClear: true,
+                                width: "100%" // Makes it fully responsive
+                            });
+                        });
+                    </script>
+
+
+                    <!-- Include Select2 CSS and JS -->
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    </body>
+
+    </html>

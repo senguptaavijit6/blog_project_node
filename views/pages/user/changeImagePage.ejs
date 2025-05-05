@@ -1,0 +1,109 @@
+<%- include("../../common/head.ejs") %>
+
+    <body class="bg-primary">
+            <div id="layoutAuthentication">
+                <div id="layoutAuthentication_content">
+                    <main>
+        <%- include("../../common/alerts.ejs") %>
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-5">
+                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div class="card-header">
+                                            <h3 class="text-center font-weight-light my-4">Change Profile Picture</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <form action="/changeImage" method="POST" enctype="multipart/form-data">
+                                                <input type="hidden" name="email" value="<%= user.email %>">
+
+
+                                                <!-- Avatar Selection -->
+                                                <% const avatars=[ { name: 'male_1' , src: 'male_1.png' }, {
+                                                    name: 'male_2' , src: 'male_2.png' }, { name: 'male_3' ,
+                                                    src: 'male_3.png' }, { name: 'male_4' , src: 'male_4.png' }, {
+                                                    name: 'male_5' , src: 'male_5.png' }, { name: 'male_6' ,
+                                                    src: 'male_6.png' }, { name: 'male_7' , src: 'male_7.png' }, {
+                                                    name: 'male_8' , src: 'male_8.png' }, { name: 'male_9' ,
+                                                    src: 'male_9.png' }, { name: 'male_10' , src: 'male_10.png' }, {
+                                                    name: 'female_1' , src: 'female_1.png' }, { name: 'female_2' ,
+                                                    src: 'female_2.png' }, { name: 'female_3' , src: 'female_3.png'
+                                                    }, { name: 'female_4' , src: 'female_4.png' }, {
+                                                    name: 'female_5' , src: 'female_5.png' }, { name: 'female_6' ,
+                                                    src: 'female_6.png' }, { name: 'female_7' , src: 'female_7.png'
+                                                    }, { name: 'female_8' , src: 'female_8.png' }, {
+                                                    name: 'female_9' , src: 'female_9.png' }, { name: 'female_10' ,
+                                                    src: 'female_10.png' }, ]; const
+                                                    selectedAvatar=locals.selectedAvatar || '' ; const
+                                                    selectedAvatarObj=avatars.find(a=> a.name === selectedAvatar) ||
+                                                    {};
+                                                    %>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Select Avatar</label>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                            id="avatarDropdown" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Choose an Avatar
+                                                        </button>
+                                                        <div class="dropdown-menu p-3" aria-labelledby="avatarDropdown"
+                                                            style="width: 300px;">
+                                                            <div class="row g-3">
+                                                                <% avatars.map((avatar, index)=> { %>
+                                                                    <!-- Avatar Grid -->
+                                                                    <div class="col-4">
+                                                                        <img src="/assets/img/avatars/<%= avatar.src %>"
+                                                                            alt="<%= avatar.name %>"
+                                                                            class="img-fluid rounded avatar-option"
+                                                                            data-avatar-name="<%= avatar.name %>"
+                                                                            style="width: 50px; height: 50px; object-fit: contain; cursor: pointer;">
+                                                                    </div>
+                                                                    <% }) %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Hidden Input Field -->
+                                                    <input type="hidden" id="selectedAvatar" name="avatar"
+                                                        value="<%= selectedAvatar %>">
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                    <button class="btn btn-primary" type="submit">Change Avatar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- <div class="card-footer text-center py-3">
+                                        <div class="small"><a href="/admin/registerPage">Wrong email? Change now</a></div>
+                                    </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                <%- include("../../common/footer.ejs") %>
+            </div>
+            <%- include("../../common/scripts.ejs") %>
+            <!-- Avatar Selection Script -->
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const avatarOptions = document.querySelectorAll('.avatar-option');
+                    const selectedAvatarInput = document.getElementById('selectedAvatar');
+                    const dropdownButton = document.getElementById('avatarDropdown');
+
+                    avatarOptions.forEach(option => {
+                        option.addEventListener('click', () => {
+                            // Get the avatar name from the clicked image's dataset
+                            const avatarName = option.getAttribute('data-avatar-name');
+
+                            // Update the hidden input field
+                            selectedAvatarInput.value = avatarName;
+
+                            // Update the dropdown button label
+                            dropdownButton.textContent = `Selected: ${avatarName}`;
+                        });
+                    });
+                });
+            </script>
+    </body>
+
+    </html>

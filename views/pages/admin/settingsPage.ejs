@@ -1,0 +1,406 @@
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<%- include("../../common/head.ejs") %>
+
+    <body class="sb-nav-fixed">
+            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+                <!-- Navbar Brand-->
+                <a class="navbar-brand ps-3" href="/"><%= siteName %></a>
+                <!-- Sidebar Toggle-->
+                <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                        class="fas fa-bars"></i></button>
+                <!-- Navbar Search-->
+                <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Search for blogs"
+                            aria-label="Search for blogs" aria-describedby="btnNavbarSearch" />
+                        <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <!-- Navbar-->
+                <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"><img
+                                src="/uploads/profile_picture/admin/<%= user.image %>" alt="admin-image"
+                                style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;"></a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+                            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div id="layoutSidenav">
+                <div id="layoutSidenav_nav">
+                    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                        <div class="sb-sidenav-menu">
+                            <div class="nav">
+                                <div class="sb-sidenav-menu-heading">Core</div>
+                                <a class="nav-link active bg-success" href="/admin/">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    Dashboard
+                                </a>
+                                <div class="sb-sidenav-menu-heading">Pages</div>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseLayouts" aria-expanded="false"
+                                    aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                    CMS Management
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="/admin/cms/general">General</a>
+                                        <a class="nav-link" href="/admin/cms/termsCMSPage">Terms</a>
+                                        <a class="nav-link" href="/admin/cms/privacyCMSPage">Privacy Policy</a>
+                                        <a class="nav-link" href="/admin/cms/homeCMSPage">Home</a>
+                                        <a class="nav-link" href="/admin/cms/aboutUsCMSPage">About Us</a>
+                                    </nav>
+                                </div>
+                                
+                                <a class="nav-link" href="/admin/allFAQsPage" >
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-question"></i></div>
+                                    FAQ Management
+                                </a>
+                                <a class="nav-link" href="/admin/allTestimonialsPage" >
+                                    <div class="sb-nav-link-icon"><i class="fa-regular fa-comments"></i></div>
+                                    Testimonials
+                                </a>
+                                <a class="nav-link" href="/admin/allCategoriesPage" >
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-icons"></i></div>
+                                    Category
+                                </a>
+                                <a class="nav-link" href="/admin/allTagsPage" >
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
+                                    Tags
+                                </a>
+                                <a class="nav-link" href="/admin/userManagement">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                                    User Management
+                                </a>
+                                <a class="nav-link" href="/admin/getAllComments">
+                                    <div class="sb-nav-link-icon"><i class="fa-regular fa-comment-dots"></i></div>
+                                    All Comments
+                                </a>
+                                <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    Pages
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                            data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                                            aria-controls="pagesCollapseAuth">
+                                            Authentication
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                            data-bs-parent="#sidenavAccordionPages">
+                                            <nav class="sb-sidenav-menu-nested nav">
+                                                <a class="nav-link" href="login.html">Login</a>
+                                                <a class="nav-link" href="register.html">Register</a>
+                                                <a class="nav-link" href="password.html">Forgot Password</a>
+                                            </nav>
+                                        </div>
+                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                            data-bs-target="#pagesCollapseError" aria-expanded="false"
+                                            aria-controls="pagesCollapseError">
+                                            Error
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                            data-bs-parent="#sidenavAccordionPages">
+                                            <nav class="sb-sidenav-menu-nested nav">
+                                                <a class="nav-link" href="401.html">401 Page</a>
+                                                <a class="nav-link" href="404.html">404 Page</a>
+                                                <a class="nav-link" href="500.html">500 Page</a>
+                                            </nav>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="sb-sidenav-menu-heading">Addons</div>
+                                <a class="nav-link" href="charts.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                    Charts
+                                </a>
+                                <a class="nav-link" href="tables.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Tables
+                                </a> -->
+                            </div>
+                        </div>
+                        <div class="sb-sidenav-footer">
+                            <div class="small">Logged in as: <%= user.role %>
+                            </div>
+                            <%= user.firstName + " " + user.lastName %>
+                        </div>
+                    </nav>
+                </div>
+                <div id="layoutSidenav_content">
+                    <main>
+                        <%- include("../../common/alerts.ejs") %>
+                        <section style="background-color: #eee;">
+                            <div class="container py-5">
+                                <div class="row">
+                                    <div class="col">
+                                        <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+                                            <ol class="breadcrumb mb-0">
+                                                <li class="breadcrumb-item"><a href="/admin/">Dashboard</a></li>
+                                                <li class="breadcrumb-item"><a href="/admin/settings">Settings</a></li>
+                                                <li class="breadcrumb-item active" aria-current="page">Account</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <a href="/admin/settings/account" class="btn btn-primary">Account</a>
+                                    <a href="/admin/settings/site" class="btn btn-outline-primary">Site</a>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="card mb-4">
+                                            <div class="card-body text-center">
+                                                <img src="/uploads/profile_picture/admin/<%= user.image %>" alt="avatar"
+                                                    class="rounded-circle img-fluid"
+                                                    style="width: 150px; height: 150px; object-fit: cover;">
+                                                <h5 class="mt-3">
+                                                    <span
+                                                        title="<%= user.isEmailVerified ? 'Email Verified' : 'Email Not Verified' %>">
+                                                        <% if(user.isEmailVerified) { %>
+                                                            <i class="fa-solid fa-shield-halved"></i>
+                                                            <% } else { %>
+                                                                <i class="fa-solid fa-heart-crack"></i>
+                                                                <% } %>
+                                                    </span>
+                                                    <%= user.firstName %>
+                                                        <span
+                                                            style="font-size: small; color: <%= user.role==='admin' ? 'green' : 'blue' %>;">
+                                                            (Site <%= user.role %>)
+                                                        </span>
+                                                </h5>
+                                                <!-- <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
+                                                <div class="d-flex justify-content-center mb-2">
+                                                    <!-- <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                        class="btn btn-primary">Follow</button>
+                                                    <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                        class="btn btn-outline-primary ms-1">Message</button> -->
+                                                    <a href="/admin/changePasswordUsingPasswordPage"
+                                                        class="btn btn-outline-danger ms-1">Change Password</a>
+                                                    <a href="/admin/changeImagePage/"
+                                                        class="btn btn-outline-primary ms-1">Change Picture</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-4 mb-lg-0">
+                                            <div class="card-body p-0">
+                                                <ul class="list-group list-group-flush rounded-3">
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                        <i class="fas fa-globe fa-lg text-warning"></i>
+                                                        <p class="mb-0">https://mdbootstrap.com</p>
+                                                    </li>
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                        <i class="fab fa-github fa-lg text-body"></i>
+                                                        <p class="mb-0">mdbootstrap</p>
+                                                    </li>
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                        <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                                                        <p class="mb-0">@mdbootstrap</p>
+                                                    </li>
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                        <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                                                        <p class="mb-0">mdbootstrap</p>
+                                                    </li>
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                        <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                                                        <p class="mb-0">mdbootstrap</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="card mb-4">
+                                            <div class="card-body">
+                                                <span class="float-end">
+                                                    <a href="/admin/updateDetailsPage" title="Update Details"><i
+                                                            class="fa-solid fa-pen-to-square"></i></a>
+                                                </span>
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <p class="mb-0">Full Name</p>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <p class="text-muted mb-0">
+                                                            <%= `${user.firstName} ${user.lastName}` %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <p class="mb-0">Email</p>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <p class="text-muted mb-0">
+                                                            <%= user.email %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <!-- <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <p class="mb-0">Phone</p>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <p class="text-muted mb-0">(097) 234-5678</p>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <p class="mb-0">Mobile</p>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <p class="text-muted mb-0">(098) 765-4321</p>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <p class="mb-0">Address</p>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card mb-4 mb-md-0">
+                                                    <div class="card-body">
+                                                        <p class="mb-4"><span
+                                                                class="text-primary font-italic me-1">assigment</span>
+                                                            Project
+                                                            Status
+                                                        </p>
+                                                        <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                                                        <div class="progress rounded" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 80%" aria-valuenow="80" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                        <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup
+                                                        </p>
+                                                        <div class="progress rounded" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 72%" aria-valuenow="72" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                        <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
+                                                        <div class="progress rounded" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 89%" aria-valuenow="89" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                        <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template
+                                                        </p>
+                                                        <div class="progress rounded" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 55%" aria-valuenow="55" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                        <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
+                                                        <div class="progress rounded mb-2" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 66%" aria-valuenow="66" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card mb-4 mb-md-0">
+                                                    <div class="card-body">
+                                                        <p class="mb-4"><span
+                                                                class="text-primary font-italic me-1">assigment</span>
+                                                            Project
+                                                            Status
+                                                        </p>
+                                                        <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                                                        <div class="progress rounded" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 80%" aria-valuenow="80" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                        <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup
+                                                        </p>
+                                                        <div class="progress rounded" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 72%" aria-valuenow="72" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                        <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
+                                                        <div class="progress rounded" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 89%" aria-valuenow="89" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                        <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template
+                                                        </p>
+                                                        <div class="progress rounded" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 55%" aria-valuenow="55" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                        <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
+                                                        <div class="progress rounded mb-2" style="height: 5px;">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 66%" aria-valuenow="66" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="my-3">
+                                            <a href="/admin/logout" class="btn btn-danger">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                    <%- include("../../common/footer.ejs") %>
+
+                </div>
+                <%- include("../../common/scripts.ejs") %>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+                        crossorigin="anonymous"></script>
+                    <script src="/assets/demo/chart-area-demo.js"></script>
+                    <script src="/assets/demo/chart-bar-demo.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+                        crossorigin="anonymous"></script>
+                    <script src="/js/datatables-simple-demo.js"></script>
+
+    </body>
+
+    </html>

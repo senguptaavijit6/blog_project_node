@@ -1,0 +1,111 @@
+<%- include("../../common/head.ejs") %>
+
+    <body class="bg-success">
+            <div id="layoutAuthentication">
+                <div id="layoutAuthentication_content">
+                    <main>
+                        <%- include("../../common/alerts.ejs") %>
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-7">
+                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div class="card-header">
+                                            <h3 class="text-center font-weight-light my-4">Update <%= user.role %>
+                                                    account</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <form method="post" action="/updateDetails">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <input class="form-control" id="inputFirstName" type="text"
+                                                                placeholder="Enter your first name" name="firstName"
+                                                                value="<%= user.firstName %>" />
+                                                            <label for="inputFirstName">First name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating">
+                                                            <input class="form-control" id="inputLastName" type="text"
+                                                                placeholder="Enter your last name" name="lastName"
+                                                                value="<%= user.lastName %>" />
+                                                            <label for="inputLastName">Last name</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" id="inputEmail" type="email"
+                                                        placeholder="name@example.com" name="email"
+                                                        value="<%= user.email %>" />
+                                                    <label for="inputEmail">Email address</label>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <label for="selectRole" class="pb-1">Choose your defined
+                                                                role:</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <select id="selectRole" name="role"
+                                                                class="form-control pt-1">
+                                                                <!-- <option disabled >Select your Role</option> -->
+                                                                <option value="author" <%=user.role==='author'
+                                                                    ? 'selected' : '' %>>Author</option>
+                                                                <option value="editor" <%=user.role==='editor' ?
+                                                                    selected : '' %>>Editor</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- <div class="form-floating mb-3">
+                                                    <input class="form-control" id="secretKey" type="password"
+                                                        placeholder="Enter the secret key" name="secretKey" />
+                                                    <label for="secretKey">Secret Key</label>
+                                                    <small style="color: red;">This field is mandetory</small>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPassword" type="password" placeholder="Create a password" name="password" />
+                                                        <label for="inputPassword">Password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
+                                                        <label for="inputPasswordConfirm">Confirm Password</label>
+                                                    </div>
+                                                </div> -->
+
+                                                
+
+                                                <div class="mt-4 mb-0">
+                                                    <div class="d-grid m-3">
+                                                        <button type="submit" class="btn btn-primary btn-block">Update
+                                                            Account</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="card-footer text-center py-3">
+                                            <div class="small"><a href="/admin/" class="text-black">Don't want to
+                                                    update? Go to Dashboard</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                <%- include("../../common/footer.ejs") %>
+            </div>
+            <%- include("../../common/scripts.ejs") %>
+    </body>
+
+    </html>

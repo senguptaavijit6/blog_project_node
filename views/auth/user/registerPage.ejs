@@ -1,0 +1,274 @@
+<%- include("../../common/head.ejs") %>
+
+
+    <!-- Include Bootstrap Icons (for avatars, optional) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
+    <!-- Include jQuery for Searchable Dropdown -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+
+    <body class="bg-success">
+        <%- include("../../common/alerts.ejs") %>
+            <div id="layoutAuthentication">
+                <div id="layoutAuthentication_content">
+                    <main>
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-7">
+                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div class="card-header">
+                                            <h3 class="text-center font-weight-light my-4">Create User Account</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <form method="post" action="/register" enctype="multipart/form-data">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <input class="form-control" id="inputFirstName" type="text"
+                                                                placeholder="Enter your first name" name="firstName" />
+                                                            <label for="inputFirstName">First name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating">
+                                                            <input class="form-control" id="inputLastName" type="text"
+                                                                placeholder="Enter your last name" name="lastName" />
+                                                            <label for="inputLastName">Last name</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" id="inputEmail" type="email"
+                                                        placeholder="name@example.com" name="email" />
+                                                    <label for="inputEmail">Email address</label>
+                                                </div>
+
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" id="inputPassword" type="password"
+                                                        placeholder="Create a password" name="password" />
+                                                    <label for="inputPassword">Password</label>
+                                                </div>
+
+                                                <div class="form-floating mb-3">
+                                                    <!-- <input class="form-control" id="inputFile" type="file"
+                                                        accept=".jpg, .jpeg, .png, .gif"
+                                                        placeholder="Choose your profile picture" name="image" /> -->
+                                                </div>
+
+                                                <div class="row row-cols-3 g-3 mb-3">
+                                                    <% const avatars=[ { name: 'male_1' , src: 'male_1.png' }, {
+                                                        name: 'male_2' , src: 'male_2.png' }, { name: 'male_3' ,
+                                                        src: 'male_3.png' }, { name: 'male_4' , src: 'male_4.png' }, {
+                                                        name: 'male_5' , src: 'male_5.png' }, { name: 'male_6' ,
+                                                        src: 'male_6.png' }, { name: 'male_7' , src: 'male_7.png' }, {
+                                                        name: 'male_8' , src: 'male_8.png' }, { name: 'male_9' ,
+                                                        src: 'male_9.png' }, { name: 'male_10' , src: 'male_10.png' }, {
+                                                        name: 'female_1' , src: 'female_1.png' }, { name: 'female_2' ,
+                                                        src: 'female_2.png' }, { name: 'female_3' , src: 'female_3.png'
+                                                        }, { name: 'female_4' , src: 'female_4.png' }, {
+                                                        name: 'female_5' , src: 'female_5.png' }, { name: 'female_6' ,
+                                                        src: 'female_6.png' }, { name: 'female_7' , src: 'female_7.png'
+                                                        }, { name: 'female_8' , src: 'female_8.png' }, {
+                                                        name: 'female_9' , src: 'female_9.png' }, { name: 'female_10' ,
+                                                        src: 'female_10.png' }, ]; const
+                                                        selectedAvatar=locals.selectedAvatar || '' ; const
+                                                        selectedAvatarObj=avatars.find(a=> a.name === selectedAvatar) ||
+                                                        {};
+                                                        %>
+
+
+                                                </div>
+
+
+
+
+                                                <!-- ================================================== -->
+
+
+                                                <!-- Avatar Selection -->
+                                                <div class="mb-3">
+                                                    <label class="form-label">Select Avatar</label>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                            id="avatarDropdown" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Choose an Avatar
+                                                        </button>
+                                                        <div class="dropdown-menu p-3" aria-labelledby="avatarDropdown"
+                                                            style="width: 300px;">
+                                                            <div class="row g-3">
+                                                                <% avatars.map((avatar, index)=> { %>
+                                                                    <!-- Avatar Grid -->
+                                                                    <div class="col-4">
+                                                                        <img src="/assets/img/avatars/<%= avatar.src %>"
+                                                                            alt="<%= avatar.name %>"
+                                                                            class="img-fluid rounded avatar-option"
+                                                                            data-avatar-name="<%= avatar.name %>"
+                                                                            style="width: 50px; height: 50px; object-fit: contain; cursor: pointer;">
+                                                                    </div>
+                                                                    <% }) %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Hidden Input Field -->
+                                                    <input type="hidden" id="selectedAvatar" name="avatar"
+                                                        value="<%= selectedAvatar %>">
+                                                </div>
+
+                                                <!-- Timezone Dropdown -->
+                                                <div class="mb-3">
+                                                    <label for="timezoneSelect" class="form-label">Select
+                                                        Timezone</label>
+                                                    <select class="form-control" id="timezoneSelect" name="timezone">
+                                                        <% timezones.map(timezone=> { %>
+                                                            <option value="<%= `${timezone.utc}~${timezone.name}` %>">
+                                                                <%= timezone.name %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+
+
+
+
+
+                                                <!-- ================================================================== -->
+
+
+
+                                                <!-- <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <label for="selectRole" class="pb-1">Choose your defined
+                                                                role:</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <select id="selectRole" name="role"
+                                                                class="form-control pt-1">
+                                                                <option disabled selected>Select your Role</option>
+                                                                <option value="user">User</option>
+                                                                <option value="editor">Editor</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" id="secretKey" type="password"
+                                                        placeholder="Enter the secret key" name="secretKey" />
+                                                    <label for="secretKey">Secret Key</label>
+                                                </div> -->
+
+                                                <!-- <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <label for="selectTimezone" class="pb-1">Choose your
+                                                                Timezone</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <select id="selectTimezone" name="timezone"
+                                                                class="form-control pt-1">
+                                                                <% timezones.map(timezone=> { %>
+                                                                    <option
+                                                                        value="<%= `${timezone.utc}~${timezone.name}` %>">
+                                                                        <%= timezone.name %>
+                                                                    </option>
+                                                                    <% }) %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+
+
+
+                                                <!-- <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPassword" type="password" placeholder="Create a password" name="password" />
+                                                        <label for="inputPassword">Password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
+                                                        <label for="inputPasswordConfirm">Confirm Password</label>
+                                                    </div>
+                                                </div> -->
+                                                <div class="mt-4 mb-0">
+                                                    <div class="d-grid m-3"><button type="submit"
+                                                            class="btn btn-primary btn-block">Create
+                                                            Account</button></div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="card-footer text-center py-3">
+                                            <div class="small"><a href="/loginPage" class="text-black">Already
+                                                    have an
+                                                    account? Go to login</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                <%- include("../../common/footer.ejs") %>
+            </div>
+            <%- include("../../common/scripts.ejs") %>
+
+
+                <!-- ~~~~Searchable Select~~~~ -->
+                <!-- Include jQuery and Select2 JS -->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+                <script>
+                    // Initialize Select2 for Timezone Dropdown
+                    $(document).ready(function () {
+                        $('#timezoneSelect').select2({
+                            placeholder: "Search Timezone",
+                            allowClear: true,
+                            width: "100%" // Makes it fully responsive
+                        });
+                    });
+                </script>
+                <!-- ~~~~Searchable Select End~~~~ -->
+
+                <!-- ~~~~Avatar Selection Script~~~~ -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const avatarOptions = document.querySelectorAll('.avatar-option');
+                        const selectedAvatarInput = document.getElementById('selectedAvatar');
+                        const dropdownButton = document.getElementById('avatarDropdown');
+
+                        avatarOptions.forEach(option => {
+                            option.addEventListener('click', () => {
+                                // Get the avatar name from the clicked image's dataset
+                                const avatarName = option.getAttribute('data-avatar-name');
+
+                                // Update the hidden input field
+                                selectedAvatarInput.value = avatarName;
+
+                                // Update the dropdown button label
+                                dropdownButton.textContent = `Selected: ${avatarName}`;
+                            });
+                        });
+                    });
+                </script>
+
+
+                <!-- Include Select2 CSS and JS -->
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+                <!-- ~~~~Avatar Selection Script End~~~~ -->
+
+
+
+    </body>
+
+    </html>

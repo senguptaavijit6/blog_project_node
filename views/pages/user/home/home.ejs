@@ -1,0 +1,745 @@
+<%- include("../../../common/head.ejs") %>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css" rel="stylesheet">
+<style>
+	:root {
+		--primary: #3a5a40;
+		--secondary: #588157;
+		--light: #f8f9fa;
+		--dark: #212529;
+		--accent: #dad7cd;
+	}
+
+	body {
+		font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+		background-color: var(--light);
+	}
+
+	.navbar {
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	.navbar-brand {
+		font-weight: 700;
+		color: var(--primary) !important;
+	}
+
+	.nav-link {
+		font-weight: 500;
+		color: var(--dark) !important;
+		transition: color 0.3s;
+	}
+
+	.nav-link:hover {
+		color: var(--primary) !important;
+	}
+
+	.carousel-container {
+		max-width: 100%;
+		margin: 0 auto;
+		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+		border-radius: 12px;
+		overflow: hidden;
+	}
+
+	.carousel-item {
+		height: 550px;
+		position: relative;
+	}
+
+	.carousel-item::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
+		z-index: 1;
+	}
+
+	.carousel-background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.carousel-caption {
+		position: absolute;
+		right: 15%;
+		bottom: 20%;
+		left: 15%;
+		z-index: 10;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		text-align: left;
+	}
+
+	.main-heading {
+		font-size: 3.2rem;
+		font-weight: 800;
+		margin-bottom: 15px;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+		animation: fadeInUp 0.8s;
+	}
+
+	.sub-heading {
+		font-size: 2.2rem;
+		font-weight: 700;
+		margin-bottom: 20px;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+		animation: fadeInUp 1s;
+	}
+
+	.regular-heading {
+		font-size: 1.4rem;
+		font-weight: 400;
+		max-width: 600px;
+		margin-bottom: 30px;
+		text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+		animation: fadeInUp 1.2s;
+	}
+
+	.carousel-cta {
+		padding: 12px 30px;
+		font-size: 1.1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		border-radius: 50px;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		transition: all 0.3s ease;
+		animation: fadeInUp 1.4s;
+	}
+
+	.carousel-cta:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+	}
+
+	.carousel-indicators {
+		margin-bottom: 30px;
+	}
+
+	.carousel-indicators [data-bs-target] {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background-color: rgba(255, 255, 255, 0.6);
+		border: none;
+		margin: 0 6px;
+	}
+
+	.carousel-indicators .active {
+		background-color: #fff;
+		transform: scale(1.2);
+	}
+
+	.carousel-control-prev,
+	.carousel-control-next {
+		width: 10%;
+		opacity: 0.7;
+	}
+
+	.carousel-control-prev:hover,
+	.carousel-control-next:hover {
+		opacity: 1;
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translate3d(0, 40px, 0);
+		}
+
+		to {
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+	}
+
+	@media (max-width: 992px) {
+		.main-heading {
+			font-size: 2.6rem;
+		}
+
+		.sub-heading {
+			font-size: 1.8rem;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.carousel-item {
+			height: 450px;
+		}
+
+		.main-heading {
+			font-size: 2.2rem;
+		}
+
+		.sub-heading {
+			font-size: 1.5rem;
+		}
+
+		.regular-heading {
+			font-size: 1.2rem;
+		}
+	}
+
+	.hero {
+		padding: 6rem 0;
+		background-color: #f7f7f7;
+		border-radius: 0 0 20px 20px;
+		margin-bottom: 4rem;
+	}
+
+	.hero h1 {
+		color: var(--primary);
+	}
+
+	.btn-primary {
+		background-color: var(--primary);
+		border-color: var(--primary);
+		border-radius: 30px;
+		padding: 0.8rem 1.8rem;
+		font-weight: 600;
+	}
+
+	.btn-primary:hover,
+	.btn-primary:focus {
+		background-color: var(--secondary);
+		border-color: var(--secondary);
+		transform: translateY(-2px);
+	}
+
+	.section-title {
+		color: var(--primary);
+		position: relative;
+		padding-bottom: 1rem;
+	}
+
+	.section-title::after {
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 50px;
+		height: 3px;
+		background-color: var(--secondary);
+	}
+
+	.card {
+		border: none;
+		border-radius: 10px;
+		overflow: hidden;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+		transition: transform 0.3s;
+		height: 100%;
+	}
+
+	.card:hover {
+		transform: translateY(-5px);
+	}
+
+	.card-img-top {
+		height: 200px;
+		object-fit: cover;
+	}
+
+	.category-badge {
+		background-color: var(--accent);
+		color: var(--primary);
+		font-size: 0.8rem;
+	}
+
+	.author-img {
+		width: 30px;
+		height: 30px;
+	}
+
+	.categories {
+		background-color: #f7f7f7;
+		border-radius: 20px;
+		padding: 4rem 0;
+	}
+
+	.category-card {
+		background-color: white;
+		border-radius: 10px;
+		padding: 1.5rem;
+		text-align: center;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+		transition: transform 0.3s;
+		height: 100%;
+	}
+
+	.category-card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+	}
+
+	.category-icon {
+		font-size: 2rem;
+		margin-bottom: 1rem;
+		color: var(--primary);
+	}
+
+	
+.testimonial-section {
+		background-color: #f8f9fa;
+		padding: 80px 0;
+		overflow: hidden;
+	}
+	
+	.section-title {
+		position: relative;
+		margin-bottom: 60px;
+	}
+	
+	.section-title:after {
+		content: '';
+		position: absolute;
+		bottom: -15px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 70px;
+		height: 3px;
+		background-color: #0d6efd;
+	}
+	
+	.testimonial-card {
+		border-radius: 15px;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+		transition: all 0.3s ease;
+		background-color: white;
+		height: 100%;
+	}
+	
+	.client-image {
+		width: 100px;
+		height: 100px;
+		object-fit: cover;
+		border-radius: 50%;
+		border: 5px solid #fff;
+		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+	}
+	
+	.star-rating .checked {
+		color: #FFD700;
+	}
+	
+	/* Swiper slider customization */
+	.swiper {
+		width: 100%;
+		padding-top: 30px;
+		padding-bottom: 50px;
+	}
+	
+	.swiper-slide {
+		width: 300px;
+		height: auto;
+		opacity: 0.4;
+		transform: scale(0.85);
+		transition: all 0.3s ease;
+	}
+	
+	.swiper-slide-active,
+	.swiper-slide-next {
+		opacity: 1;
+		transform: scale(1);
+		z-index: 2;
+	}
+	
+	.swiper-pagination {
+		bottom: 0;
+	}
+	
+	.swiper-button-next,
+	.swiper-button-prev {
+		color: #0d6efd;
+		background-color: white;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+	}
+	
+	.swiper-button-next:after,
+	.swiper-button-prev:after {
+		font-size: 18px;
+	}
+	
+	@media (max-width: 768px) {
+		.swiper-slide {
+			width: 90%;
+		}
+	}
+
+	.footer {
+		background-color: var(--dark);
+		color: white;
+		padding: 4rem 0 2rem;
+	}
+
+	.footer h5 {
+		color: var(--accent);
+		margin-bottom: 1.5rem;
+	}
+
+	.footer-links {
+		list-style: none;
+		padding-left: 0;
+	}
+
+	.footer-links li {
+		margin-bottom: 0.8rem;
+	}
+
+	.footer-links a {
+		color: #aaa;
+		text-decoration: none;
+		transition: color 0.3s;
+	}
+
+	.footer-links a:hover {
+		color: white;
+	}
+
+	.social-links a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		background-color: rgba(255, 255, 255, 0.1);
+		border-radius: 50%;
+		color: white;
+		margin-right: 0.5rem;
+		transition: background-color 0.3s;
+	}
+
+	.social-links a:hover {
+		background-color: var(--primary);
+		text-decoration: none;
+	}
+
+	.copyright {
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		padding-top: 2rem;
+		color: #aaa;
+	}
+</style>
+</head>
+
+<body>
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+		<div class="container">
+			<a class="navbar-brand" href="/"><%= siteName %></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/getAllCategoriesWithPagination?page=1&limit=10">Categories</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/getAllTagsWithPagination?page=1&limit=10">Tags</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Featured</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/aboutUs">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/contactUs">Contact</a>
+					</li>
+				</ul>
+			</div>
+			<!-- Navbar Search-->
+			<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" action="/search" method="post">
+				<div class="input-group">
+					<input class="form-control" type="text" name="searchSlug" placeholder="Search for blogs" aria-label="Search for blogs" aria-describedby="btnNavbarSearch" style="border-radius: 30px 0 0 30px;"/>
+					<button class="btn btn-primary" id="btnNavbarSearch" type="submit"><i class="fas fa-search"></i></button>
+				</div>
+			</form>
+		</div>
+		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<% console.log("user from singleBlogPage", user) %>
+					<% if(user && user.role !== "admin") { %>
+					<img src="/assets/img/avatars/<%= user.avatar %>.png" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+					<% } else if(user && user.role === "admin") { %>
+					<img src="/uploads/profile_picture/admin/<%= user.image %>" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+					<% } else { %>
+					<i class="fa-solid fa-user"></i>
+					<% } %>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+					<% if(!user) { %>
+					<li><a class="dropdown-item" href="/loginPage">Login</a></li>
+					<li><a class="dropdown-item" href="/admin/loginPage">Login as Admin</a></li>
+					<% } else if (user && user.role !== "admin"){ %>
+					<li><a class="dropdown-item" href="/settings">Settings</a></li>
+					<li><a class="dropdown-item" href="/logout">Logout</a></li>
+					<% } else if (user && user.role === "admin") { %>
+					<li><a class="dropdown-item" href="/admin/settings">Settings</a></li>
+					<li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+					<% } %>
+					<!-- <li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="/admin/logout">Logout</a></li> -->
+				</ul>
+			</li>
+		</ul>
+	</nav>
+
+	<!-- Hero Carousel Section -->
+	<div class="carousel-container">
+		<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-indicators">
+				<% sliders.map((slide, index)=> { %>
+				<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="<%= index %>" class="<%= index===0 ? 'active' : '' %>" aria-current="<%= index===0 ? 'true' : '' %>" aria-label="Slide <%= index %>"></button>
+				<% }) %>
+			</div>
+			<div class="carousel-inner">				
+				<% sliders.map((slide, index)=>{ %>
+				<div class="carousel-item <%= index===0 ? 'active' : '' %>">
+					<img src="/uploads/cms/home/slider/<%= slide.sliderImage %>" class="carousel-background" alt="Forest Trail">
+					<div class="carousel-caption">
+						<h1 class="main-heading">
+							<%= slide.sliderBoldHeading %>
+						</h1>
+						<h2 class="sub-heading">
+							<%= slide.sliderHeading %>
+						</h2>
+						<a href="#" class="btn btn-warning carousel-cta text-white" style="background-color: <%= slide.sliderButtonColor %>">
+							<%= slide.sliderButtonText %>
+						</a>
+					</div>
+				</div>
+				<% }) %>
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	</div>
+
+	<!-- Recent Posts -->
+	<section class="py-5">
+		<div class="container">
+			<h2 class="section-title text-center mb-5">Recent Articles</h2>
+			<div class="row g-4">
+				<!-- Posts -->
+				<% if(blogs && blogs.length > 0) { %>
+                    <% blogs.slice(0, 3).map((blog, index)=> { %>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100">
+                            <img src="/uploads/blog_image/<%= blog.image %>" class="card-img-top" alt="Featured Post">
+                            <div class="card-body">
+								<% blog.categoryDetails.map(category=> { %>
+									<span class="badge category-badge mb-2">
+										<%= category.name %>
+									</span>
+								<% }) %>
+                                <h5 class="card-title">
+                                    <%= blog.title.length> 30 ? `${blog.title.slice(0, 30)}...` : blog.title %>
+                                </h5>
+                                <p class="card-text text-muted" style="overflow: hidden; height: 72px;">
+									<% const processedContent = blog.content.replace(/<img[^>]*>/g, '').replace(/<\/?[^>]+(>|$)/g, '') %>
+                                    <%- processedContent.length > 100 ? `${processedContent.slice(0, 100)}...` : processedContent %>
+                                </p>
+                                <div class="d-flex align-items-center mt-3">
+                                    <img src="<%- blog.authorDetails.role === 'author' ? `/assets/img/avatars/${blog.authorDetails.avatar}.png` : `/uploads/profile_picture/admin/${blog.authorDetails.image}` %>" class="rounded-circle author-img me-2" alt="Author">
+                                    <% let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] %>
+                                    <small class="text-muted"><%= `${blog.authorDetails.firstName} ${blog.authorDetails.lastName} • ${months[blog.publishAt.getMonth()]} ${blog.publishAt.getDate()}, ${blog.publishAt.getFullYear()}`  %></small>
+                                </div>
+                                <a class="btn btn-link" style="margin-left: -10px; margin-top: 10px;" href="/blogDetails/<%= blog._id %>">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+					<!-- <div class="col-12 text-end mt-4">
+						<% if(blogs.length > 3) { %>
+							<a href="/blogs" class="btn btn-primary">View All Articles</a>
+						<% } %>
+					</div> -->
+				<% } %>
+			</div>
+			<% if(blogs && blogs.length > 3) { %>
+				<div class="text-center mt-4">
+					<a href="/blogs" class="btn btn-primary">View All Articles</a>
+				</div>
+			<% } %>
+		</div>
+	</section>
+
+	<!-- Categories Section -->
+	<section class="categories my-5">
+		<div class="container py-4">
+			<h2 class="section-title text-center mb-5">Explore Categories</h2>
+			<div class="row g-4 justify-content-center">
+				
+				<% categories.slice(0, 6).map(category=> { %>
+					<div class="col-6 col-md-4 col-lg-2">
+						<a href="/getBlogsByCategory/<%= category._id %>" class="text-decoration-none">
+							<div class="category-card">
+								<div class="category-icon"><i class="fa-solid fa-icons"></i></div>
+								<span class="badge category-badge m-2">
+									<%= category.name.length < 8 ? category.name : `${category.name.slice(0, 8)}...` %>
+								</span>
+							</div>
+						</a>
+					</div>
+				<% }) %>
+			</div>
+			<% if(categories && categories.length > 6) { %>
+				<div class="text-center mt-4">
+					<a href="/getAllCategoriesWithPagination?page=1&limit=10" class="btn btn-primary">View All Categories</a>
+				</div>
+			<% } %>
+		</div>
+	</section>
+
+	<!-- Testimonials -->
+	<section class="testimonial-section">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-12">
+					<h2 class="section-title">What Our Clients Say</h2>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-12">
+					<!-- Swiper Slider -->
+					<div class="swiper testimonialsSwiper">
+						<div class="swiper-wrapper">
+							<% if(testimonials && testimonials.activeCount > 0) { %>
+								<% testimonials.map(testimonial => { %>
+									<div class="swiper-slide">
+										<div class="testimonial-card p-4 h-100">
+											<div class="text-center mb-4">
+												<img src="/uploads/testimonials/<%= testimonial.clientImage %>" alt="Sarah Johnson" class="client-image">
+												<h5 class="mt-3 mb-0"><%= testimonial.clientName %></h5>
+												<p class="text-muted"><%= testimonial.clientDesignation %></p>
+												<div class="star-rating">
+													<% for(let i=0; i < testimonial.clientRating; i++) { %>
+														<span class="fa fa-star checked"></span>
+													<% } %>
+													<% for(let i=0; i < 5-testimonial.clientRating; i++) { %>
+														<span class="fa fa-star"></span>
+													<% } %>
+												</div>
+											</div>
+											<p class="text-muted fst-italic">"<%= testimonial.clientMessage %>"</p>
+										</div>
+									</div>
+								<% }) %>
+							<% } %>
+						</div>
+						
+						<!-- Navigation buttons -->
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+						
+						<!-- Pagination -->
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Newsletter Section -->
+	<section class="py-5">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-8 text-center">
+					<h2 class="section-title mb-4">Join Our Newsletter</h2>
+					<p class="text-muted mb-4">Get weekly updates with the best articles directly in your inbox. No
+						spam, just the content you love.</p>
+					<form class="row g-3 justify-content-center">
+						<div class="col-md-8">
+							<input type="email" class="form-control form-control-lg rounded-pill" placeholder="Your email address" required>
+						</div>
+						<div class="col-md-4">
+							<button type="submit" class="btn btn-primary w-100 rounded-pill">Subscribe</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<%- include("../../../common/homePageFooter.ejs") %>
+
+	<%- include("../../../common/scripts.ejs") %>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+
+	<script>
+		// Initialize Swiper
+		const swiper = new Swiper('.testimonialsSwiper', {
+			slidesPerView: 'auto',
+			centeredSlides: true,
+			spaceBetween: 30,
+			loop: true,
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true,
+			},
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+			breakpoints: {
+				// when window width is >= 320px
+				320: {
+					slidesPerView: 1,
+					spaceBetween: 20
+				},
+				// when window width is >= 768px
+				768: {
+					slidesPerView: 2,
+					spaceBetween: 30
+				},
+				// when window width is >= 992px
+				992: {
+					slidesPerView: 3,
+					spaceBetween: 40
+				}
+			},
+			// Make inactive slides behind active ones
+			effect: 'coverflow',
+			coverflowEffect: {
+				rotate: 0,
+				stretch: 0,
+				depth: 100,
+				modifier: 1,
+				slideShadows: false,
+			}
+		});
+	</script>
+
+</body>
+
+</html>

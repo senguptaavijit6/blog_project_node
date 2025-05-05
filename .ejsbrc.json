@@ -1,0 +1,11 @@
+{
+    "formatting": {
+        "formatOnSave": true,
+        "formatOnType": true,
+        "formatOnPaste": true,
+        "formatOnEnter": true,
+        "formatOnSaveMode": "modifications",
+        "formatOnSaveTimeout": 1000
+    },
+    "indent_with_tabs": true
+}

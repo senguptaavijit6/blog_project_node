@@ -1,0 +1,359 @@
+<%- include("../../../common/head.ejs") %>
+    <style>
+        .contact-header {
+            background-color: #f8f9fa;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+        }
+        .contact-info-card {
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .contact-info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .contact-icon {
+            font-size: 2rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+        }
+        .map-container {
+            height: 350px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .form-section {
+            background-color: #f8f9fa;
+            padding: 5rem 0;
+            margin: 3rem 0;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #0d6efd;
+        }
+        .btn-submit {
+            padding: 0.5rem 2rem;
+        }
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+<body>
+    <!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+		<div class="container">
+			<a class="navbar-brand" href="/"><%= siteName %></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/getAllCategoriesWithPagination?page=1&limit=10">Categories</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/getAllTagsWithPagination?page=1&limit=10">Tags</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Featured</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/aboutUs">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/contactUs">Contact</a>
+					</li>
+				</ul>
+			</div>
+			<!-- Navbar Search-->
+			<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" action="/search" method="post">
+				<div class="input-group">
+					<input class="form-control" type="text" name="searchSlug" placeholder="Search for blogs" aria-label="Search for blogs" aria-describedby="btnNavbarSearch" style="border-radius: 30px 0 0 30px;"/>
+					<button class="btn btn-primary" id="btnNavbarSearch" type="submit"><i class="fas fa-search"></i></button>
+				</div>
+			</form>
+		</div>
+		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<% console.log("user from singleBlogPage", user) %>
+					<% if(user && user.role !== "admin") { %>
+					<img src="/assets/img/avatars/<%= user.avatar %>.png" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+					<% } else if(user && user.role === "admin") { %>
+					<img src="/uploads/profile_picture/admin/<%= user.image %>" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+					<% } else { %>
+					<i class="fa-solid fa-user"></i>
+					<% } %>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+					<% if(!user) { %>
+					<li><a class="dropdown-item" href="/loginPage">Login</a></li>
+					<li><a class="dropdown-item" href="/admin/loginPage">Login as Admin</a></li>
+					<% } else if (user && user.role !== "admin"){ %>
+					<li><a class="dropdown-item" href="/settings">Settings</a></li>
+					<li><a class="dropdown-item" href="/logout">Logout</a></li>
+					<% } else if (user && user.role === "admin") { %>
+					<li><a class="dropdown-item" href="/admin/settings">Settings</a></li>
+					<li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+					<% } %>
+					<!-- <li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="/admin/logout">Logout</a></li> -->
+				</ul>
+			</li>
+		</ul>
+	</nav>
+
+    <!-- Header Section -->
+    <header class="contact-header">
+        <div class="container text-center">
+            <h1 class="display-4 mb-3">Contact Us</h1>
+            <p class="lead">We'd love to hear from you. Here's how you can reach us.</p>
+        </div>
+    </header>
+
+    <!-- Contact Information Section -->
+    <section class="container mb-5">
+        <div class="row g-4">
+            <!-- Contact Card 1 -->
+            <div class="col-md-4">
+                <div class="card contact-info-card p-4 text-center">
+                    <div class="card-body">
+                        <i class="fa-solid fa-location-dot contact-icon"></i>
+                        <h5 class="card-title">Our Location</h5>
+                        <p class="card-text">123 Business Avenue<br>Suite 100<br>San Francisco, CA 94103</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Card 2 -->
+            <div class="col-md-4">
+                <div class="card contact-info-card p-4 text-center">
+                    <div class="card-body">
+                        <i class="fa-solid fa-phone contact-icon"></i>
+                        <h5 class="card-title">Phone Number</h5>
+                        <p class="card-text">Main: (555) 123-4567<br>Support: (555) 987-6543<br>Fax: (555) 321-7654</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Card 3 -->
+            <div class="col-md-4">
+                <div class="card contact-info-card p-4 text-center">
+                    <div class="card-body">
+                        <i class="fa-solid fa-envelope contact-icon"></i>
+                        <h5 class="card-title">Email Address</h5>
+                        <p class="card-text">info@yourcompany.com<br>support@yourcompany.com<br>sales@yourcompany.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="container mb-5">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4"><i class="fa-solid fa-map-location-dot me-2"></i>Find Us</h2>
+                <div class="map-container">
+                    <!-- Placeholder for map -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7192.859163564651!2d-74.00550290513061!3d40.713068771038365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1746142259507!5m2!1sen!2sin" height="600" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="form-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow">
+                        <div class="card-body p-5">
+                            <h2 class="text-center mb-4"><i class="fa-solid fa-paper-plane me-2"></i>Send Us a Message</h2>
+                            <form action="/sendMessage" method="post">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                                            <input type="text" class="form-control" id="firstName" name="fname" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                                            <input type="text" class="form-control" id="lastName" name="lname" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Phone</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+                                            <input type="tel" class="form-control" id="phone" name="phone">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="subject" class="form-label">Subject</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa-solid fa-tag"></i></span>
+                                            <input type="text" class="form-control" id="subject" name="subject" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="message" class="form-label">Message</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa-solid fa-message"></i></span>
+                                            <textarea class="form-control" id="message" rows="5" required name="message"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="newsletter" name="subscribe">
+                                            <label class="form-check-label" for="newsletter">
+                                                <i class="fa-solid fa-envelope-open-text me-1"></i> Subscribe to our newsletter
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-submit mt-3">
+                                            <i class="fa-solid fa-paper-plane me-2"></i>Send Message
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Hours Section -->
+    <section class="container mb-5">
+        <div class="row">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="mb-4"><i class="fa-solid fa-clock me-2"></i>Business Hours</h2>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><i class="fa-solid fa-calendar-day me-2"></i>Monday - Friday</td>
+                            <td>9:00 AM - 6:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-calendar-day me-2"></i>Saturday</td>
+                            <td>10:00 AM - 4:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-calendar-day me-2"></i>Sunday</td>
+                            <td>Closed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="mb-4"><i class="fa-solid fa-share-nodes me-2"></i>Connect With Us</h2>
+                <div class="d-flex gap-3 mb-4">
+                    <a href="#" class="btn btn-outline-primary social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="btn btn-outline-primary social-icon"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="btn btn-outline-primary social-icon"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="btn btn-outline-primary social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="btn btn-outline-primary social-icon"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+                <p class="lead">
+                    <i class="fa-solid fa-bullhorn me-2"></i>Follow us on social media for updates, news, and special promotions.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="container mb-5">
+        <h2 class="mb-4"><i class="fa-solid fa-circle-question me-2"></i>Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            <% if(faqs.activeCount > 0) { %>
+                <% faqs.map((faq, index) => { %>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading<%= index %>">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
+                                <i class="fa-solid fa-headset me-2"></i><%= faq.question %>
+                            </button>
+                        </h2>
+                        <div id="collapse<%= index %>" class="accordion-collapse collapse show" aria-labelledby="heading<%= index %>" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <%= faq.answer %>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
+            <!-- <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <i class="fa-solid fa-headset me-2"></i>What are your customer service hours?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Our customer service team is available Monday through Friday from 8:00 AM to 8:00 PM EST, and Saturday from 9:00 AM to 5:00 PM EST.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <i class="fa-solid fa-clock me-2"></i>How long does it take to receive a response?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        We aim to respond to all inquiries within 24 hours during business days. For urgent matters, please call our support line for immediate assistance.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <i class="fa-solid fa-truck-fast me-2"></i>Do you offer international shipping?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, we ship to most countries worldwide. Shipping costs and delivery times vary by location. You can calculate shipping costs at checkout.
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+	<%- include("../../../common/homePageFooter.ejs") %>
+
+	<%- include("../../../common/scripts.ejs") %>
+
+</body>
+</html>

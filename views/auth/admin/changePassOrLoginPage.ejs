@@ -1,0 +1,54 @@
+<%- include("../../common/head.ejs") %>
+
+    <body class="bg-primary">
+        <%- include("../../common/alerts.ejs") %>
+            <div id="layoutAuthentication">
+                <div id="layoutAuthentication_content">
+                    <main>
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-5">
+                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div class="card-header">
+                                            <h3 class="text-center font-weight-light my-4">Do you want to change your
+                                                current password</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div>
+                                                <img src="/uploads/profile_picture/admin/<%= user.image %>" alt="Admin Image" class="rounded-circle" style="width: 100px; height: 100px; object-fit: contain; display: block; margin-left: auto; margin-right: auto;">
+                                                <p class="text-center" style="color: darkgreen;">
+                                                    Hi <%= `${user.firstName} ${user.lastName}` %>
+                                                </p>
+                                            </div>
+                                            <div class="small mb-3 text-muted">
+                                                If you've lost your password it is better
+                                                to change that, but if you're login with a different machine and don't
+                                                want to change your password you also can login
+                                            </div>
+                                            <form action="/admin/loginUsingOTP" method="POST">
+
+
+                                                <input type="hidden" name="email" value="<%= user.email %>">
+                                                <input type="hidden" name="otp" value="<%= userOTP %>">
+                                                <div
+                                                    class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                    <a class="btn btn-primary" href="/admin/changePasswordUsingOTPPage/<%= user.email %>/<%= userOTP %>">Change Password</a>
+                                                    <button class="btn btn-secondary" type="submit">Login</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- <div class="card-footer text-center py-3">
+                                        <div class="small"><a href="/admin/registerPage">Wrong email? Change now</a></div>
+                                    </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                <%- include("../../common/footer.ejs") %>
+            </div>
+            <%- include("../../common/scripts.ejs") %>
+    </body>
+
+    </html>

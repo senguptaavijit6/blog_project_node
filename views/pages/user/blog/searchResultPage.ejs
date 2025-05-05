@@ -1,0 +1,468 @@
+<%- include("../../../common/head.ejs") %>
+<style>
+	:root {
+		--primary: #3a5a40;
+		--secondary: #588157;
+		--light: #f8f9fa;
+		--dark: #212529;
+		--accent: #dad7cd;
+	}
+
+	body {
+		font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+		background-color: var(--light);
+	}
+
+	.navbar {
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	.navbar-brand {
+		font-weight: 700;
+		color: var(--primary) !important;
+	}
+
+	.nav-link {
+		font-weight: 500;
+		color: var(--dark) !important;
+		transition: color 0.3s;
+	}
+
+	.nav-link:hover {
+		color: var(--primary) !important;
+	}
+
+	.card {
+		overflow: hidden;
+	}
+
+	.card-horizontal {
+		display: flex;
+		flex-direction: row;
+		height: 100%;
+	}
+
+	.card-img-left {
+		width: 180px;
+		object-fit: cover;
+		object-position: center;
+		height: 100%;
+	}
+
+	.main-heading {
+		font-size: 3.2rem;
+		font-weight: 800;
+		margin-bottom: 15px;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+		animation: fadeInUp 0.8s;
+	}
+
+	.sub-heading {
+		font-size: 2.2rem;
+		font-weight: 700;
+		margin-bottom: 20px;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+		animation: fadeInUp 1s;
+	}
+
+	.regular-heading {
+		font-size: 1.4rem;
+		font-weight: 400;
+		max-width: 600px;
+		margin-bottom: 30px;
+		text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+		animation: fadeInUp 1.2s;
+	}
+
+	@media (max-width: 767px) {
+		.card-horizontal {
+			flex-direction: column;
+		}
+
+		.card-img-left {
+			width: 100%;
+			height: 200px;
+		}
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translate3d(0, 40px, 0);
+		}
+
+		to {
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+	}
+
+	@media (max-width: 992px) {
+		.main-heading {
+			font-size: 2.6rem;
+		}
+
+		.sub-heading {
+			font-size: 1.8rem;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.carousel-item {
+			height: 450px;
+		}
+
+		.main-heading {
+			font-size: 2.2rem;
+		}
+
+		.sub-heading {
+			font-size: 1.5rem;
+		}
+
+		.regular-heading {
+			font-size: 1.2rem;
+		}
+	}
+
+	.hero {
+		padding: 6rem 0;
+		background-color: #f7f7f7;
+		border-radius: 0 0 20px 20px;
+		margin-bottom: 4rem;
+	}
+
+	.hero h1 {
+		color: var(--primary);
+	}
+
+	.btn-primary {
+		background-color: var(--primary);
+		border-color: var(--primary);
+		border-radius: 30px;
+		padding: 0.8rem 1.8rem;
+		font-weight: 600;
+	}
+
+	.btn-primary:hover,
+	.btn-primary:focus {
+		background-color: var(--secondary);
+		border-color: var(--secondary);
+		transform: translateY(-2px);
+	}
+
+	.section-title {
+		color: var(--primary);
+		position: relative;
+		padding-bottom: 1rem;
+	}
+
+	.section-title::after {
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 50px;
+		height: 3px;
+		background-color: var(--secondary);
+	}
+
+	.card {
+		border: none;
+		border-radius: 10px;
+		overflow: hidden;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+		transition: transform 0.3s;
+		height: 100%;
+	}
+
+	.card:hover {
+		transform: translateY(-5px);
+	}
+
+	.card-img-top {
+		height: 200px;
+		object-fit: cover;
+	}
+
+	.category-badge {
+		background-color: var(--accent);
+		color: var(--primary);
+		font-size: 0.8rem;
+	}
+
+	.author-img {
+		width: 30px;
+		height: 30px;
+	}
+
+	.categories {
+		background-color: #f7f7f7;
+		border-radius: 20px;
+		padding: 4rem 0;
+	}
+
+	.category-card {
+		background-color: white;
+		border-radius: 10px;
+		padding: 1.5rem;
+		text-align: center;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+		transition: transform 0.3s;
+		height: 100%;
+	}
+
+	.category-card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+	}
+
+	.category-icon {
+		font-size: 2rem;
+		margin-bottom: 1rem;
+		color: var(--primary);
+	}
+
+	.footer {
+		background-color: var(--dark);
+		color: white;
+		padding: 4rem 0 2rem;
+	}
+
+	.footer h5 {
+		color: var(--accent);
+		margin-bottom: 1.5rem;
+	}
+
+	.footer-links {
+		list-style: none;
+		padding-left: 0;
+	}
+
+	.footer-links li {
+		margin-bottom: 0.8rem;
+	}
+
+	.footer-links a {
+		color: #aaa;
+		text-decoration: none;
+		transition: color 0.3s;
+	}
+
+	.footer-links a:hover {
+		color: white;
+	}
+
+	.social-links a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		background-color: rgba(255, 255, 255, 0.1);
+		border-radius: 50%;
+		color: white;
+		margin-right: 0.5rem;
+		transition: background-color 0.3s;
+	}
+
+	.social-links a:hover {
+		background-color: var(--primary);
+		text-decoration: none;
+	}
+
+	.copyright {
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		padding-top: 2rem;
+		color: #aaa;
+	}
+</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+		<div class="container">
+			<a class="navbar-brand" href="/"><%= siteName %></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/getAllCategoriesWithPagination?page=1&limit=10">Categories</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/getAllTagsWithPagination?page=1&limit=10">Tags</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Featured</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/aboutUs">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/contactUs">Contact</a>
+					</li>
+				</ul>
+			</div>
+			<!-- Navbar Search-->
+			<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" action="/search" method="post">
+				<div class="input-group">
+					<input class="form-control" type="text" name="searchSlug" placeholder="Search for blogs" aria-label="Search for blogs" aria-describedby="btnNavbarSearch" style="border-radius: 30px 0 0 30px;"/>
+					<button class="btn btn-primary" id="btnNavbarSearch" type="submit"><i class="fas fa-search"></i></button>
+				</div>
+			</form>
+		</div>
+		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<% console.log("user from singleBlogPage", user) %>
+					<% if(user && user.role !== "admin") { %>
+					    <img src="/assets/img/avatars/<%= user.avatar %>.png" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+					<% } else if(user && user.role === "admin") { %>
+					    <img src="/uploads/profile_picture/admin/<%= user.image %>" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+					<% } else { %>
+					    <i class="fa-solid fa-user"></i>
+					<% } %>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+					<% if(!user) { %>
+                        <li><a class="dropdown-item" href="/loginPage">Login</a></li>
+                        <li><a class="dropdown-item" href="/admin/loginPage">Login as Admin</a></li>
+					<% } else if (user && user.role !== "admin"){ %>
+                        <li><a class="dropdown-item" href="/settings">Settings</a></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+					<% } else if (user && user.role === "admin") { %>
+                        <li><a class="dropdown-item" href="/admin/settings">Settings</a></li>
+                        <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+					<% } %>
+					<!-- <li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="/admin/logout">Logout</a></li> -->
+				</ul>
+			</li>
+		</ul>
+	</nav>
+	<section class="container py-5">
+        <h2 class="section-title text-center mb-5">Blogs Found</h2>
+		<!-- Blogs Card List -->
+		<% if(blogs !== undefined && blogs.length > 0) { %>
+			<div class="row g-4">
+				<% blogs.map(blog => { %>
+					<div class="col-12">
+						<div class="card">
+							<div class="card-horizontal">
+								<img src="/uploads/blog_image/<%= blog.image %>" alt="Card image" class="card-img-left">
+								<div class="card-body">
+									<h5 class="card-title"><%= blog.title %></h5>
+									<!-- <h6 class="card-subtitle mb-2 text-muted">Subtitle</h6> -->
+									<p class="card-text">
+										<% const processedContent = blog.content.replace(/<img[^>]*>/g, '').replace(/<\/?[^>]+(>|$)/g, '') %>
+										<%- processedContent.length > 50 ? `${processedContent.slice(0, 50)}...` : processedContent %>
+									</p>
+									<% blog.categoryDetails.map(category => { %>
+										<span class="badge category-badge mb-2">
+											<%= category.name %>
+										</span>
+									<% }) %>
+									<div class="d-flex align-items-center mt-3">
+										<img src="/assets/img/avatars/<%= blog.authorDetails.avatar %>.png" class="rounded-circle author-img me-2" alt="Author">
+										<% let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] %>
+										<small class="text-muted"><%= `${blog.authorDetails.firstName} ${blog.authorDetails.lastName} • ${months[blog.publishAt.getMonth()]} ${blog.publishAt.getDate()}, ${blog.publishAt.getFullYear()}`  %></small>
+									</div>
+									<a class="btn btn-link" style="margin-left: -10px; margin-top: 10px;" href="/blogDetails/<%= blog._id %>">Read More</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				<% }) %>
+			</div>
+		<% } else if (blogs !== undefined && blogs.length === 0) { %>
+			<div class="alert alert-info text-center" role="alert">
+				No Blogs found.
+			</div>
+		<% } %>
+
+        <h2 class="section-title text-center mb-5">Categories Found</h2>
+		<!-- Categories Card List -->
+		<% if(categories !== undefined && categories.totalCount > 0) { %>
+			<div class="row g-4">
+				<% categories.data.map(category => { %>
+					<div class="col-12">
+						<div class="card">
+							<div class="card-horizontal">
+                                <div class="category-icon h-100 d-flex justify-content-center align-items-center p-5" style="min-width: fit-content;"><i class="fa-solid fa-icons"></i></div>
+								<div class="card-body">
+									<h5 class="card-title"><%= category.name %></h5>
+									<!-- <h6 class="card-subtitle mb-2 text-muted">Subtitle</h6> -->									
+									<a class="btn btn-link" style="margin-left: -10px; margin-top: 10px;" href="/getBlogsByCategory/<%= category._id.toString() %>">See Blogs</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				<% }) %>
+			</div>
+		<% } else if (categories !== undefined && categories.length === 0) { %>
+			<div class="alert alert-info text-center" role="alert">
+				No Categories found.
+			</div>
+		<% } %>
+
+        <h2 class="section-title text-center mb-5">Tags Found</h2>
+        <!-- Tags Card List -->
+        <% if(tags !== undefined && tags.totalCount > 0) { %>
+			<div class="row g-4">
+				<% tags.data.map(tag => { %>
+					<div class="col-12">
+						<div class="card">
+							<div class="card-horizontal">
+                                <div class="category-icon h-100 d-flex justify-content-center align-items-center p-5" style="min-width: fit-content;"><i class="fa-solid fa-hashtag"></i></div>
+								<div class="card-body">
+									<h5 class="card-title"><%= tag.name %></h5>
+									<!-- <h6 class="card-subtitle mb-2 text-muted">Subtitle</h6> -->									
+									<a class="btn btn-link" style="margin-left: -10px; margin-top: 10px;" href="/getBlogsByTag/<%= tag._id.toString() %>">See Blogs</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				<% }) %>
+			</div>
+		<% } else if (tags !== undefined && tags.length === 0) { %>
+			<div class="alert alert-info text-center" role="alert">
+				No Tags found.
+			</div>
+		<% } %>
+		<!-- Pagination -->
+		<!-- /* <nav aria-label="Page navigation" class="mt-5">
+			<ul class="pagination justify-content-center">
+				<% const totalPages = tags.totalCount > limit ? Math.ceil(tags.totalCount / limit) : 1 %>
+				<% const arr = Array.from({ length: totalPages }, (v, i) => i) %>
+				<% console.log("array from length", arr) %>
+
+				<li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+					<a class="page-link" href="/getAllTags/?page=<%= page-1 %>&limit=10" tabindex="<%= page === 1 ? -1 : '' %>" aria-disabled="<%= page === 1 ? true : false %>">Previous</a>
+				</li>
+				<% arr.map((_, i) => { %>
+					<li class="page-item active"><a class="page-link" href="/getAllTags/?page=<%= i+1 %>&limit=10"><%= i+1 %></a></li>
+				<% }) %>
+				<li class="page-item <%= page === totalPages ? 'disabled' : '' %>">
+					<a class="page-link" href="/getAllTags/?page=<%= page+1 %>&limit=10" tabindex="<%= page === totalPages ? -1 : '' %>" aria-disabled="<%= page === totalPages ? true : false %>">Next</a>
+				</li>
+			</ul>
+		</nav> */ -->
+	</section>
+
+	
+	<%- include("../../../common/homePageFooter.ejs") %>
+
+	<%- include("../../../common/scripts.ejs") %>
+</body>
+
+</html>

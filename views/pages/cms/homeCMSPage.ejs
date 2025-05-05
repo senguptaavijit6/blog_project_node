@@ -1,0 +1,310 @@
+<%- include("../../common/head.ejs") %>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="/"><%= siteName %></a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                    class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for blogs" aria-label="Search for blogs">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" id="btnNavbarSearch" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><img
+                            src="/uploads/profile_picture/admin/<%= user.image %>" alt="admin-image"
+                            style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;"></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="/admin/">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Pages</div>
+                            <a class="nav-link active bg-success" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                CMS Management
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/admin/cms/general">General</a>
+                                    <a class="nav-link" href="/admin/cms/termsCMSPage">Terms</a>
+                                    <a class="nav-link" href="/admin/cms/privacyCMSPage">Privacy Policy</a>
+                                    <a class="nav-link active bg-primary" href="/admin/cms/homeCMSPage">Home</a>
+                                    <a class="nav-link" href="/admin/cms/aboutUsCMSPage">About Us</a>
+                                </nav>
+                            </div>
+
+                            <a class="nav-link" href="/admin/allFAQsPage">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-question"></i></div>
+                                FAQ Management
+                            </a>
+                            <a class="nav-link" href="/admin/allTestimonialsPage">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-comments"></i></div>
+                                Testimonials
+                            </a>
+                            <a class="nav-link" href="/admin/allCategoriesPage">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-icons"></i></div>
+                                Category
+                            </a>
+                            <a class="nav-link" href="/admin/allTagsPage" >
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
+                                Tags
+                            </a>
+                            <a class="nav-link" href="/admin/userManagement">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                                User Management
+                            </a>
+                            <a class="nav-link" href="/admin/getAllComments">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-comment-dots"></i></div>
+                                All Comments
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as: <%= user.role %>
+                        </div>
+                        <%= user.firstName + " " + user.lastName %>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <%- include("../../common/alerts.ejs") %>
+                        <section style="background-color: #eee;">
+                            <div class="container py-5">
+                                <h1 class="mt-4">Homepage Management</h1>
+                                <div class="row">
+                                    <div class="col">
+                                        <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+                                            <ol class="breadcrumb mb-0">
+                                                <li class="breadcrumb-item"><a href="/admin/cms/homeCMSPage">CMS
+                                                        Management</a></li>
+                                                <li class="breadcrumb-item active" aria-current="page">Homepage
+                                                    Management</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="my-3">
+                                        <a href="/admin/cms/deleteHomepage/<% homepageData._id %>"
+                                            class="btn btn-danger">Delete Homepage</a>
+                                        <a href="/admin/cms/homeSliderPage" class="btn btn-primary">Slider Page</a>
+                                    </div>
+                                    <!-- <div class="my-3">
+                                    </div> -->
+
+
+                                    <div class="row mb-3">
+                                        <div class="card p-5 pb-5">
+                                            <form action="/admin/cms/homeCMS" method="post" id="homepageForm">
+                                                <!-- Section 1 -->
+
+
+                                                <!-- Section 2 -->
+                                                <h3 class="mt-1">Section 2</h3>
+                                                <div class="row mb-3">
+                                                    <label>Select Tags:</label><span>This will change the blogs you see in homepage</span>
+                                                    <select id="multiple-checkboxes" multiple="multiple" name="tags">
+                                                        <% allTags.map(tag => { %>
+                                                            <option value="<%= tag.name %>"><%= tag.name %></option>
+                                                        <% }) %>
+                                                    </select>
+                                                    <small class="text-danger">Tag not listed? <a href="/admin/createTagPage">Create Tag</a></small>
+                                                </div>
+
+                                                <hr class="divider" />
+
+                                                <!-- Section 3 -->
+                                                <h3 class="mt-1">Section 3</h3>
+                                                <div class="row mb-3">
+                                                    <div class="col-6 my-2">
+                                                        <div class="form-floating">
+                                                            <input class="form-control" id="inputSection3Heading"
+                                                                type="text" placeholder="Bold Heading"
+                                                                name="section3Heading"
+                                                                value="<%= homepageData.section3Heading %>" />
+                                                            <label for="inputSection3Heading">Heading <span
+                                                                    class="text-danger">*</span></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 my-2">
+                                                        <div class="form-floating">
+                                                            <input class="form-control" id="inputSection2SubHeading"
+                                                                type="text" placeholder="Heading"
+                                                                name="section3SubHeading"
+                                                                value="<%= homepageData.section2SubHeading %>" />
+                                                            <label for="inputSection2SubHeading">Sub Heading <span
+                                                                    class="text-danger">*</span></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-floating">
+                                                        <div class="col-12 my-2">
+                                                            <label for="editor2">Description <span
+                                                                    class="text-danger">*</span></label>
+                                                            <div id="toolbar-container-2">
+                                                                <span class="ql-formats">
+                                                                    <select class="ql-font"></select>
+                                                                    <select class="ql-size"></select>
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-bold"></button>
+                                                                    <button class="ql-italic"></button>
+                                                                    <button class="ql-underline"></button>
+                                                                    <button class="ql-strike"></button>
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <select class="ql-color"></select>
+                                                                    <select class="ql-background"></select>
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-script" value="sub"></button>
+                                                                    <button class="ql-script" value="super"></button>
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-header" value="1"></button>
+                                                                    <button class="ql-header" value="2"></button>
+                                                                    <button class="ql-blockquote"></button>
+                                                                    <button class="ql-code-block"></button>
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-list" value="ordered"></button>
+                                                                    <button class="ql-list" value="bullet"></button>
+                                                                    <button class="ql-indent" value="-1"></button>
+                                                                    <button class="ql-indent" value="+1"></button>
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-direction" value="rtl"></button>
+                                                                    <select class="ql-align"></select>
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-link"></button>
+                                                                    <button class="ql-image"></button>
+                                                                    <button class="ql-video"></button>
+                                                                    <button class="ql-formula"></button>
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-clean"></button>
+                                                                </span>
+                                                            </div>
+                                                            <div id="editor2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="my-5 px-3">
+                                                    <button type="submit" class="btn btn-success mr-3"
+                                                        id="submitBtn">Update</button>
+                                                    <a href="/admin/" class="btn btn-primary mr-3">Dashboard</a>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </section>
+                </main>
+                <%- include("../../common/footer.ejs") %>
+
+            </div>
+        <%- include("../../common/scripts.ejs") %>
+
+        <!-- Initialize Quill editor -->
+        <script>
+
+            const editor2 = new Quill('#editor2', {
+                modules: {
+                    syntax: true,
+                    toolbar: '#toolbar-container-2',
+                },
+                placeholder: 'Section 3 Description',
+                theme: 'snow',
+            });
+            // Pass the EJS variable into JavaScript
+            const homepageData = '<%- JSON.stringify(homepageData) %>' || {};
+
+            console.log('home page Form Data:', homepageData);
+
+            // Populate editors with saved data
+            editor2.clipboard.dangerouslyPasteHTML("<%- homepageData?.section3Description %>" || '');
+
+            // Handle form submission
+            document.getElementById('homepageForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                try {
+                    const editor2Content = editor2.root.innerHTML; // extract the values from the editor
+
+                    // Create hidden inputs
+                    const input2 = document.createElement('input');
+                    input2.setAttribute('type', 'hidden');
+                    input2.setAttribute('name', 'section3Description');
+                    input2.setAttribute('value', editor2Content); // set the values as hidden input field values
+
+                    // Append inputs and submit the form
+                    this.appendChild(input2);
+                    this.submit();
+                } catch (error) {
+                    console.error('Form submission failed:', error);
+                }
+            });
+
+        </script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+
+        <script type="text/javascript"
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#multiple-checkboxes').multiselect({
+                    includeSelectAllOption: true,
+                });
+            });
+        </script>
+
+
+    </body>
+
+    </html>

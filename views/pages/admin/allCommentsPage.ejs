@@ -1,0 +1,282 @@
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<%- include("../../common/head.ejs") %>
+
+<style>
+	.content-card {
+		border-radius: 20px;
+		overflow: hidden;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		margin: 20px auto;
+		max-width: 800px;
+	}
+
+	.card-img {
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.user-comment {
+		border-top: 1px solid #eee;
+		padding: 10px 20px;
+	}
+
+	.user-icon {
+		color: #d63031;
+		font-size: 1.2rem;
+	}
+</style>
+
+<body class="sb-nav-fixed">
+	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+		<!-- Navbar Brand-->
+		<a class="navbar-brand ps-3" href="/"><%= siteName %></a>
+		<!-- Sidebar Toggle-->
+		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+		<!-- Navbar Search-->
+		<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+			<!-- <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Search for blogs" aria-label="Search for blogs"
+                            aria-describedby="btnNavbarSearch" />
+                        <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
+                                class="fas fa-search"></i></button>
+                    </div> -->
+		</form>
+		<!-- Navbar-->
+		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="/uploads/profile_picture/admin/<%= user.image %>" alt="admin-image" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;"></a>
+				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+					<li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+					<li><a class="dropdown-item" href="#!">Activity Log</a></li>
+					<li>
+						<hr class="dropdown-divider" />
+					</li>
+					<li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_nav">
+			<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+				<div class="sb-sidenav-menu">
+					<div class="nav">
+						<div class="sb-sidenav-menu-heading">Core</div>
+						<a class="nav-link" href="/admin/">
+							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+							Dashboard
+						</a>
+						<div class="sb-sidenav-menu-heading">Pages</div>
+						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+							<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+							CMS Management
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+						</a>
+						<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<a class="nav-link" href="/admin/cms/general">General</a>
+								<a class="nav-link" href="/admin/cms/termsCMSPage">Terms</a>
+								<a class="nav-link" href="/admin/cms/privacyCMSPage">Privacy Policy</a>
+								<a class="nav-link" href="/admin/cms/homeCMSPage">Home</a>
+								<a class="nav-link" href="/admin/cms/aboutUsCMSPage">About Us</a>
+							</nav>
+						</div>
+
+						<a class="nav-link" href="/admin/allFAQsPage">
+							<div class="sb-nav-link-icon"><i class="fa-solid fa-circle-question"></i></div>
+							FAQ Management
+						</a>
+						<a class="nav-link" href="/admin/allTestimonialsPage">
+							<div class="sb-nav-link-icon"><i class="fa-regular fa-comments"></i></div>
+							Testimonials
+						</a>
+						<a class="nav-link" href="/admin/allCategoriesPage">
+							<div class="sb-nav-link-icon"><i class="fa-solid fa-icons"></i></div>
+							Category
+						</a>
+						<a class="nav-link" href="/admin/allTagsPage">
+							<div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
+							Tags
+						</a>
+						<a class="nav-link" href="/admin/userManagement">
+							<div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+							User Management
+						</a>
+						<a class="nav-link active bg-success" href="/admin/getAllComments">
+							<div class="sb-nav-link-icon"><i class="fa-regular fa-comment-dots"></i></div>
+							All Comments
+						</a>
+						<!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    Pages
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                            data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                                            aria-controls="pagesCollapseAuth">
+                                            Authentication
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                            data-bs-parent="#sidenavAccordionPages">
+                                            <nav class="sb-sidenav-menu-nested nav">
+                                                <a class="nav-link" href="login.html">Login</a>
+                                                <a class="nav-link" href="register.html">Register</a>
+                                                <a class="nav-link" href="password.html">Forgot Password</a>
+                                            </nav>
+                                        </div>
+                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                            data-bs-target="#pagesCollapseError" aria-expanded="false"
+                                            aria-controls="pagesCollapseError">
+                                            Error
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                            data-bs-parent="#sidenavAccordionPages">
+                                            <nav class="sb-sidenav-menu-nested nav">
+                                                <a class="nav-link" href="401.html">401 Page</a>
+                                                <a class="nav-link" href="404.html">404 Page</a>
+                                                <a class="nav-link" href="500.html">500 Page</a>
+                                            </nav>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="sb-sidenav-menu-heading">Addons</div>
+                                <a class="nav-link" href="charts.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                    Charts
+                                </a>
+                                <a class="nav-link" href="tables.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Tables
+                                </a> -->
+					</div>
+				</div>
+				<div class="sb-sidenav-footer">
+					<div class="small">Logged in as: <%= user.role %></div>
+					<%= user.firstName + " " + user.lastName %>
+				</div>
+			</nav>
+		</div>
+		<div id="layoutSidenav_content">
+			<main>
+				<%- include("../../common/alerts.ejs") %>
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Comments</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">All Comments</li>
+					</ol>
+
+					<!-- <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-chart-area me-1"></i>
+                                            Area Chart Example
+                                        </div>
+                                        <div class="card-body"><canvas id="myAreaChart" width="100%"
+                                                height="40"></canvas></div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-chart-bar me-1"></i>
+                                            Bar Chart Example
+                                        </div>
+                                        <div class="card-body"><canvas id="myBarChart" width="100%"
+                                                height="40"></canvas></div>
+                                    </div>
+                                </div>
+                            </div> -->
+					<!-- Card List -->
+					<% if(blogs !== undefined && blogs.length > 0) { %>
+					<div class="row g-4">
+						<% blogs.map(blog => { %>
+						<div class="col-12">
+							<div class="card">
+								<div class="row g-0">
+									<!-- Left Image -->
+									<div class="col-md-3">
+										<img src="/uploads/blog_image/<%= blog.blogDetails.image %>" alt="Blog Image" class="card-img">
+									</div>
+
+									<!-- Content -->
+									<div class="col-md-7 d-flex align-items-center">
+										<div class="card-body">
+											<h2 class="card-title fw-bold"><%= blog.blogDetails.title %></h2>
+											<p class="card-text">
+												<% const processedContent = blog.blogDetails.content.replace(/<img[^>]*>/g, '').replace(/<\/?[^>]+(>|$)/g, '') %>
+												<%- processedContent.length > 50 ? `${processedContent.slice(0, 50)}...` : processedContent %>
+											</p>
+										</div>
+									</div>
+
+									<!-- Button -->
+									<div class="col-md-2 d-flex align-items-center justify-content-center">
+										<a href="/blogDetails/<%= blog.blogDetails._id %>" class="btn btn-primary rounded-pill px-4">Read</a>
+									</div>
+								</div>
+							</div>
+
+							<!-- User Comment Section -->
+							<div class="user-comment bg-warning">
+								<div class="d-flex align-items-center">
+									<% if(blog.commentOwner && blog.commentOwner.role !== "admin") { %>
+									<img src="/assets/img/avatars/<%= blog.commentOwner.avatar %>.png" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+									<% } else if(blog.commentOwner && blog.commentOwner.role === "admin") { %>
+									<img src="/uploads/profile_picture/admin/<%= blog.commentOwner.image %>" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+									<% } else { %>
+									<i class="fa-solid fa-user"></i>
+									<% } %>
+									<span class="text-muted ms-3"><%= blog.content %></span>
+								</div>
+							</div>
+						</div>
+						<% }) %>
+					</div>
+
+					<% } else if (blogs !== undefined && blogs.length === 0) { %>
+					<div class="alert alert-info text-center" role="alert">
+						No blogs found in this category.
+					</div>
+					<% } %>
+				</div>
+				<!-- Pagination -->
+				<nav aria-label="Page navigation" class="mt-5">
+					<ul class="pagination justify-content-center">
+						<% const totalPages = blogs.length > limit ? Math.ceil(blogs.length / limit) : 1 %>
+						<% const arr = Array.from({ length: totalPages }, (v, i) => i) %>
+						<% console.log("array from length", arr) %>
+
+						<li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+							<a class="page-link" href="/getAllComments/?page=<%= page-1 %>" tabindex="-1" aria-disabled="true">Previous</a>
+						</li>
+						<% arr.map((_, i) => { %>
+						<li class="page-item active"><a class="page-link" href="/getAllComments/?page=<%= i+1 %>"><%= i+1 %></a></li>
+						<% }) %>
+						<li class="page-item <%= page === arr.length ? 'disabled' : '' %>">
+							<a class="page-link" href="/getAllComments/?page=<%= page+1 %>">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</main>
+			<%- include("../../common/footer.ejs") %>
+
+		</div>
+		<%- include("../../common/scripts.ejs") %>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+		<script src="/assets/demo/chart-area-demo.js"></script>
+		<script src="/assets/demo/chart-bar-demo.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+		<script src="/js/datatables-simple-demo.js"></script>
+
+</body>
+
+</html>

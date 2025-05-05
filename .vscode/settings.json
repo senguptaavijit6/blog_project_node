@@ -1,0 +1,23 @@
+{
+    "json.schemas": [
+        {
+            "emmet.includeLanguages": {
+                "ejs": "html"
+            },
+            "[html]": {
+                "editor.defaultFormatter": "j69.ejs-beautify"
+            },
+            "[javascript]": {
+                "editor.defaultFormatter": "esbenp.prettier-vscode"
+            },
+            "beautify.language": {
+                "html": [
+                    "ejs",
+                    "html"
+                ],
+                "css": [],
+                "js": []
+            }
+        }
+    ]
+}

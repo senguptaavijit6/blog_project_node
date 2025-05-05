@@ -1,0 +1,45 @@
+<%- include("../../common/head.ejs") %>
+
+    <body class="bg-primary">
+            <div id="layoutAuthentication">
+                <div id="layoutAuthentication_content">
+                    <main>
+        <%- include("../../common/alerts.ejs") %>
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-5">
+                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div class="card-header">
+                                            <h3 class="text-center font-weight-light my-4">Change Profile Picture</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <form action="/admin/changeImage" method="POST" enctype="multipart/form-data">
+                                                <input type="hidden" name="email" value="<%= user.email %>">
+
+                                                <label for="inputFile" class="my-2">Only jpg, jpeg, png, gif is accepted <span style="color: red">(Max 10MB)</span></label>
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" id="inputFile" type="file"
+                                                        accept=".jpg, .jpeg, .png, .gif"
+                                                        placeholder="Choose your profile picture" name="image" />
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                    <button class="btn btn-primary" type="submit">Change Image</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- <div class="card-footer text-center py-3">
+                                        <div class="small"><a href="/admin/registerPage">Wrong email? Change now</a></div>
+                                    </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                <%- include("../../common/footer.ejs") %>
+            </div>
+            <%- include("../../common/scripts.ejs") %>
+    </body>
+
+    </html>

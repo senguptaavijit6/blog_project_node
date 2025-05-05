@@ -1,0 +1,474 @@
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<%- include("../../../common/head.ejs") %>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+
+        .toggle-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .status-text {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Custom toggle switch styling */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .checker {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .checker:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.checker {
+            background-color: #198754;
+        }
+
+        input:focus+.checker {
+            box-shadow: 0 0 1px #198754;
+        }
+
+        input:checked+.checker:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-label {
+            margin: 0 10px;
+            font-weight: bold;
+        }
+    </style>
+
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="/"><%= siteName %></a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                    class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for blogs"
+                        aria-label="Search for blogs">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" id="btnNavbarSearch" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><img
+                            src="/uploads/profile_picture/admin/<%= user.image %>" alt="admin avatar"
+                            style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;"></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link active bg-success" href="/admin/">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Pages</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                CMS Management
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/admin/cms/general">General</a>
+                                    <a class="nav-link" href="/admin/cms/termsCMSPage">Terms</a>
+                                    <a class="nav-link" href="/admin/cms/privacyCMSPage">Privacy Policy</a>
+                                    <a class="nav-link" href="/admin/cms/homeCMSPage">Home</a>
+                                    <a class="nav-link" href="/admin/cms/aboutUsCMSPage">About Us</a>
+                                </nav>
+                            </div>
+
+                            <a class="nav-link" href="/admin/allFAQsPage">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-question"></i></div>
+                                FAQ Management
+                            </a>
+                            <a class="nav-link" href="/admin/allTestimonialsPage">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-comments"></i></div>
+                                Testimonials
+                            </a>
+                            <a class="nav-link" href="/admin/allCategoriesPage">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-icons"></i></div>
+                                Category
+                            </a>
+                            <a class="nav-link" href="/admin/allTagsPage">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
+                                Tags
+                            </a>
+                            <a class="nav-link" href="/admin/userManagement">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                                User Management
+                            </a>
+                            <a class="nav-link" href="/admin/getAllComments">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-comment-dots"></i></div>
+                                All Comments
+                            </a>
+                            <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    Pages
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                            data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                                            aria-controls="pagesCollapseAuth">
+                                            Authentication
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                            data-bs-parent="#sidenavAccordionPages">
+                                            <nav class="sb-sidenav-menu-nested nav">
+                                                <a class="nav-link" href="login.html">Login</a>
+                                                <a class="nav-link" href="register.html">Register</a>
+                                                <a class="nav-link" href="password.html">Forgot Password</a>
+                                            </nav>
+                                        </div>
+                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                            data-bs-target="#pagesCollapseError" aria-expanded="false"
+                                            aria-controls="pagesCollapseError">
+                                            Error
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                            data-bs-parent="#sidenavAccordionPages">
+                                            <nav class="sb-sidenav-menu-nested nav">
+                                                <a class="nav-link" href="401.html">401 Page</a>
+                                                <a class="nav-link" href="404.html">404 Page</a>
+                                                <a class="nav-link" href="500.html">500 Page</a>
+                                            </nav>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="sb-sidenav-menu-heading">Addons</div>
+                                <a class="nav-link" href="charts.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                    Charts
+                                </a>
+                                <a class="nav-link" href="tables.html">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Tables
+                                </a> -->
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as: <%= user.role %>
+                        </div>
+                        <%= user.firstName + " " + user.lastName %>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <%- include("../../../common/alerts.ejs") %>
+                        <div class="container-fluid px-4">
+                            <h1 class="mt-4">Dashboard</h1>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item"><a href="/admin/">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Create Blog</li>
+                            </ol>
+
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table me-1"></i>
+                                    Create Blog
+                                </div>
+                                <div class="card-body">
+                                    <% console.log("userTime from create blog page ejs", userTime,
+                                        userTime.getUTCHours(), userTime.getUTCMinutes()) %>
+                                        <form action="/admin/createBlog" method="POST" enctype="multipart/form-data"
+                                            id="createBlogPageForm">
+                                            <div class="mb-3">
+                                                <label for="image" class="form-label">Image <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" id="image" name="image"
+                                                    accept=".jpg, .jpeg, .png, .gif" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="title" class="form-label">Title <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="title" name="title"
+                                                    placeholder="Enter blog title" required>
+                                            </div>
+                                            <div class="form-floating">
+                                                <div class="col-12 my-2">
+                                                    <label for="editor">Description <span
+                                                            class="text-danger">*</span></label>
+                                                    <div id="toolbar-container">
+                                                        <span class="ql-formats">
+                                                            <select class="ql-font"></select>
+                                                            <select class="ql-size"></select>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-bold"></button>
+                                                            <button class="ql-italic"></button>
+                                                            <button class="ql-underline"></button>
+                                                            <button class="ql-strike"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <select class="ql-color"></select>
+                                                            <select class="ql-background"></select>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-script" value="sub"></button>
+                                                            <button class="ql-script" value="super"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-header" value="1"></button>
+                                                            <button class="ql-header" value="2"></button>
+                                                            <button class="ql-blockquote"></button>
+                                                            <button class="ql-code-block"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-list" value="ordered"></button>
+                                                            <button class="ql-list" value="bullet"></button>
+                                                            <button class="ql-indent" value="-1"></button>
+                                                            <button class="ql-indent" value="+1"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-direction" value="rtl"></button>
+                                                            <select class="ql-align"></select>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-link"></button>
+                                                            <button class="ql-image"></button>
+                                                            <button class="ql-video"></button>
+                                                            <button class="ql-formula"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <button class="ql-clean"></button>
+                                                        </span>
+                                                    </div>
+                                                    <div id="editor">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="multiple-checkboxes-category" class="form-label">Select
+                                                    Category(Multiple can
+                                                    be selected) <span class="text-danger">*</span></label>
+                                                <select id="multiple-checkboxes-category" multiple="multiple"
+                                                    name="category" required>
+                                                    <% categories.map(category=> { %>
+                                                        <option value="<%= category._id %>">
+                                                            <%= category.name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="inputTags" class="form-label">Select Tags(Multiple can
+                                                    be selected) <span class="text-danger">*</span></label>
+                                                <select id="multiple-checkboxes-tag" multiple="multiple" name="tags"
+                                                    required>
+                                                    <% tags.map(tag=> { %>
+                                                        <option value="<%= tag._id %>">
+                                                            <%= tag.name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="inputPublicPrivate" class="form-label">Select Blog Type
+                                                </label>
+                                                <select id="inputPublicPrivate" name="isPrivate">
+                                                    <option value=true>Private</option>
+                                                    <option value=false selected>Public</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="toggle-container ">
+                                                    <p>When do you want to publish this blog?</p>
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <span class="toggle-label text-secondary">Now</span>
+                                                        <label class="toggle-switch mx-2">
+                                                            <input type="checkbox" id="toggleSwitch"
+                                                                name="isFuturePublish">
+                                                            <span class="checker"></span>
+                                                        </label>
+                                                        <span class="toggle-label text-success">In Future</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 d-none" id="futurePublishDateTime">
+                                                <label for="inputPublishedOn" class="form-label">
+                                                    Publish Date and Time <span class="text-success">(Required only for
+                                                        future publish)</span>
+                                                </label>
+                                                <div class="row g-2">
+                                                    <div class="col-6 px-4">
+                                                        <input type="date" class="form-control" id="inputPublishedOn"
+                                                            name="publishAt"
+                                                            placeholder="Publishing Date, (default is today)" required
+                                                            value="<%= `${userTime.getFullYear()}-${(userTime.getMonth() + 1).toString().padStart(2, '0')}-${userTime.getDate().toString().padStart(2, '0')}` %>">
+                                                    </div>
+                                                    <div class="col-6 px-4">
+                                                        <input type="time" class="form-control" id="inputpublishAt"
+                                                            name="publishAt"
+                                                            placeholder="Publishing Time, (default is immediate)"
+                                                            required
+                                                            value="<%= `${userTime.getHours().toString().padStart(2, '0')}:${userTime.getMinutes().toString().padStart(2, '0')}` %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" class="form-control" name="author"
+                                                value="<%= user._id %>">
+                                            <input type="hidden" class="form-control" name="authorRole"
+                                                value="<%= user.role %>">
+
+
+                                            <button type="submit" class="btn btn-primary">Create Blog</button>
+                                        </form>
+                                </div>
+
+                            </div>
+                </main>
+                <%- include("../../../common/footer.ejs") %>
+
+            </div>
+            <%- include("../../../common/scripts.ejs") %>
+
+
+                <!-- Initialize Quill editor -->
+                <script>
+
+                    const editor = new Quill('#editor', {
+                        modules: {
+                            syntax: true,
+                            toolbar: '#toolbar-container',
+                        },
+                        placeholder: 'Blog content',
+                        theme: 'snow',
+                    });
+
+                    // Handle form submission
+                    document.getElementById('createBlogPageForm').addEventListener('submit', function (event) {
+                        event.preventDefault();
+
+                        try {
+                            const editorContent = editor.root.innerHTML; // extract the values from the editor
+
+                            // Create hidden inputs
+                            const input = document.createElement('input');
+                            input.setAttribute('type', 'hidden');
+                            input.setAttribute('name', 'content');
+                            input.setAttribute('value', editorContent); // set the values as hidden input field values
+
+                            console.log(input)
+
+                            // Append inputs and submit the form
+                            this.appendChild(input);
+                            this.submit();
+                        } catch (error) {
+                            console.error('Form submission failed:', error);
+                        }
+                    });
+
+                </script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+
+                <script type="text/javascript"
+                    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+                <script
+                    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#multiple-checkboxes-category').multiselect({
+                            includeSelectAllOption: true,
+                        });
+                        $('#multiple-checkboxes-tag').multiselect({
+                            includeSelectAllOption: true,
+                        });
+                    });
+                </script>
+
+                <script>
+                    // Get references to DOM elements
+                    const toggleSwitch = document.getElementById('toggleSwitch');
+                    // Add change event listener to switch
+                    toggleSwitch.addEventListener('change', function () {
+                        if (this.checked) {
+                            // Active state
+                            document.getElementById('futurePublishDateTime').classList.remove('d-none');
+                            document.getElementById('inputPublishedOn').setAttribute('required', 'required');
+                        } else {
+                            // Inactive state
+                            document.getElementById('futurePublishDateTime').classList.add('d-none');
+                            document.getElementById('inputPublishedOn').removeAttribute('required');
+                        }
+                    });
+                </script>
+
+    </body>
+
+    </html>

@@ -1,0 +1,93 @@
+<%- include("../../../common/head.ejs") %>
+    
+<body>
+    <!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+		<div class="container">
+			<a class="navbar-brand" href="/"><%= siteName %></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/getAllCategoriesWithPagination?page=1&limit=10">Categories</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/getAllTagsWithPagination?page=1&limit=10">Tags</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Featured</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/aboutUs">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/contactUs">Contact</a>
+					</li>
+				</ul>
+			</div>
+			<!-- Navbar Search-->
+			<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" action="/search" method="post">
+				<div class="input-group">
+					<input class="form-control" type="text" name="searchSlug" placeholder="Search for blogs" aria-label="Search for blogs" aria-describedby="btnNavbarSearch" style="border-radius: 30px 0 0 30px;"/>
+					<button class="btn btn-primary" id="btnNavbarSearch" type="submit"><i class="fas fa-search"></i></button>
+				</div>
+			</form>
+		</div>
+		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<% console.log("user from singleBlogPage", user) %>
+					<% if(user && user.role !== "admin") { %>
+					<img src="/assets/img/avatars/<%= user.avatar %>.png" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+					<% } else if(user && user.role === "admin") { %>
+					<img src="/uploads/profile_picture/admin/<%= user.image %>" style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;">
+					<% } else { %>
+					<i class="fa-solid fa-user"></i>
+					<% } %>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+					<% if(!user) { %>
+					<li><a class="dropdown-item" href="/loginPage">Login</a></li>
+					<li><a class="dropdown-item" href="/admin/loginPage">Login as Admin</a></li>
+					<% } else if (user && user.role !== "admin"){ %>
+					<li><a class="dropdown-item" href="/settings">Settings</a></li>
+					<li><a class="dropdown-item" href="/logout">Logout</a></li>
+					<% } else if (user && user.role === "admin") { %>
+					<li><a class="dropdown-item" href="/admin/settings">Settings</a></li>
+					<li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+					<% } %>
+					<!-- <li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="/admin/logout">Logout</a></li> -->
+				</ul>
+			</li>
+		</ul>
+	</nav>
+
+    <!-- Header Section -->
+    <header class="contact-header">
+        <div class="container text-center">
+            <h1 class="display-4 mb-3"><%= policy.title %></h1>
+            <p class="lead">Please read carefully.</p>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="p-3"><%- policy.content %></div>
+    </section>
+
+    <!-- Footer -->
+	<%- include("../../../common/homePageFooter.ejs") %>
+
+	<%- include("../../../common/scripts.ejs") %>
+
+</body>
+</html>

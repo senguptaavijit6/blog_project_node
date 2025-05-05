@@ -1,0 +1,264 @@
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<%- include("../../../common/head.ejs") %>
+
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="/"><%= siteName %></a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                    class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for blogs" aria-label="Search for blogs"
+                        aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
+                            class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><img
+                            src="/uploads/profile_picture/admin/<%= user.image %>" alt="admin-image"
+                            style="width: 30px; height: 30px; object-fit: cover; border-radius: 100px;"></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/admin/settings/">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="/admin/">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Pages</div>
+                            <a class="nav-link active bg-success" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                CMS Management
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/admin/cms/general">General</a>
+                                    <a class="nav-link" href="/admin/cms/termsCMSPage">Terms</a>
+                                    <a class="nav-link" href="/admin/cms/privacyCMSPage">Privacy Policy</a>
+                                    <a class="nav-link active bg-primary" href="/admin/cms/homeCMSPage">Home</a>
+                                    <a class="nav-link" href="/admin/cms/aboutUsCMSPage">About Us</a>
+                                </nav>
+                            </div>
+
+                            <a class="nav-link" href="/admin/allFAQsPage">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-question"></i></div>
+                                FAQ management
+                            </a>
+                            <a class="nav-link" href="/admin/allTestimonialsPage">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-comments"></i></div>
+                                Testimonials
+                            </a>
+                            <a class="nav-link" href="/admin/allCategoriesPage">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-icons"></i></div>
+                                Category
+                            </a>
+                            <a class="nav-link" href="/admin/allTagsPage" >
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
+                                Tags
+                            </a>
+                            <a class="nav-link" href="/admin/userManagement">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                                User Management
+                            </a>
+                            <a class="nav-link" href="/admin/getAllComments">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-comment-dots"></i></div>
+                                All Comments
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as: <%= user.role %>
+                        </div>
+                        <%= user.firstName + " " + user.lastName %>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <%- include("../../../common/alerts.ejs") %>
+                        <section style="background-color: #eee;">
+                            <div class="container py-5">
+                                <h1 class="mt-4">Slider Management</h1>
+                                <div class="row">
+                                    <div class="col">
+                                        <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+                                            <ol class="breadcrumb mb-0">
+                                                <li class="breadcrumb-item"><a href="/admin/cms/homeCMSPage">CMS
+                                                        Management</a></li>
+                                                <li class="breadcrumb-item"><a href="/admin/cms/homeCMSPage">Home
+                                                        Management</a></li>
+                                                <li class="breadcrumb-item active" aria-current="page">All Sliders</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                                <div class="my-3">
+                                    <a href="/admin/cms/homeCMSPage" class="btn btn-success"><i
+                                            class="fa-solid fa-caret-left"></i> Home Management</a>
+                                    <a href="/admin/cms/createHomeSliderPage" class="btn btn-primary">Add Slider</a>
+                                </div>
+
+                                <!-- <div class="my-3">
+                                </div> -->
+
+                                <div class="row">
+                                    <div class="mb-4 px-2 col-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <span class="float-end">
+                                                    <i class="fa-solid fa-circle-question mt-3"
+                                                        style="color: aqua; font-size: 26pt;"></i>
+                                                </span>
+                                                <span style="font-size: 26pt;">
+                                                    <%= (sliderData.length> 0) ? sliderData.length : 0 %> <br />
+                                                </span>
+                                                <span>
+                                                    Total Sliders
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4 px-2 col-4">
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <span class="float-end">
+                                                    <i class="fa-solid fa-circle-question mt-3"
+                                                        style="color: aquamarine; font-size: 26pt;"></i>
+                                                </span>
+                                                <span style="font-size: 26pt;">
+                                                    <%= sliderData.activeCount %> <br />
+                                                </span>
+                                                <span>
+                                                    Active Sliders
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4 px-2 col-4">
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <span class="float-end">
+                                                    <i class="fa-solid fa-circle-question mt-3"
+                                                        style="color: indianred; font-size: 26pt;"></i>
+                                                </span>
+                                                <span style="font-size: 26pt;">
+                                                    <%= sliderData.inactiveCount %> <br />
+                                                </span>
+                                                <span>
+                                                    Inactive Sliders
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card mb-4">
+                                                <div class="card-header">
+                                                    <i class="fa-regular fa-circle-question"></i>
+                                                    Sliders
+                                                </div>
+                                                <div class="card-body">
+                                                    <table id="datatablesSimple">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Image</th>
+                                                                <th>Heading</th>
+                                                                <th>Status</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th>Image</th>
+                                                                <th>Heading</th>
+                                                                <th>Status</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </tfoot>
+                                                        <tbody>
+
+                                                            <% sliderData.map(Slider=> { %>
+                                                                <tr>
+                                                                    <td>
+                                                                        <img src="/uploads/cms/home/slider/<%= Slider.sliderImage %>"
+                                                                            alt="Slider Image"
+                                                                            style="height: 100px; width: auto;">
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= Slider.sliderHeading %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            style="background-color: <%= Slider.status==='active' ? '#28c76f12' : '#ea545512' %>; color: <%= Slider.status==='active' ? '#28c76f' : '#ea5455' %>; padding: 2px 10px 5px; border-radius: 100px; ">
+                                                                            <%= Slider.status %>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div>
+                                                                            <a class="btn btn-outline-secondary btn-sm m-2"
+                                                                                style="min-width: max-content;"
+                                                                                href="/admin/cms/singleHomeSliderPage/<%= Slider._id %>"><i
+                                                                                    class="fa-solid fa-circle-info"></i>Details</a>
+                                                                        </div>
+                                                                        <div>
+                                                                            <a class="btn btn-outline-success btn-sm m-2"
+                                                                                style="min-width: max-content;"
+                                                                                href="/admin/cms/updateHomeSliderPage/<%= Slider._id %>"><i
+                                                                                    class="fa-solid fa-pen-to-square"></i>Edit</a>
+                                                                        </div>
+                                                                        <div>
+                                                                            <a class="btn btn-outline-danger btn-sm m-2"
+                                                                                style="min-width: max-content;"
+                                                                                href="/admin/cms/deleteHomeSlider/<%= Slider._id %>"><i
+                                                                                    class="fa-solid fa-trash-can"></i>Delete</a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <% }) %>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                </main>
+                <%- include("../../../common/footer.ejs") %>
+
+            </div>
+            <%- include("../../../common/scripts.ejs") %>
+                
+
+
+    </body>
+
+    </html>
