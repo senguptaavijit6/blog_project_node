@@ -301,8 +301,8 @@ class UserBlogsController {
 
     async singleBlog(req, res) {
         try {
-            const network = os.networkInterface()['Wi-Fi']
-            console.log("whole network", network)
+            // const network = os.networkInterface()['Wi-Fi']
+            // console.log("whole network", network)
             const macAddress =  null
             console.log('Mac Address', macAddress);
             const user = req.user || false;
