@@ -301,7 +301,7 @@ class UserBlogsController {
 
     async singleBlog(req, res) {
         try {
-            const macAddress = os.networkInterfaces()['Wi-Fi'][0].cidr || null
+            const macAddress = os.networkInterfaces()['Wi-Fi']?[0].cidr || null
             console.log('Mac Address', macAddress);
             const user = req.user || false;
             const viewId = req.user?._id || macAddress || 'notFound'
