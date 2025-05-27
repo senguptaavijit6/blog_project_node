@@ -303,7 +303,7 @@ class UserBlogsController {
         try {
             const network = os.networkInterface()['Wi-Fi']
             console.log("whole network", network)
-            const macAddress = network ? os.networkInterfaces()['Wi-Fi']?[0].cidr || null
+            const macAddress =  null
             console.log('Mac Address', macAddress);
             const user = req.user || false;
             const viewId = req.user?._id || macAddress || 'notFound'
