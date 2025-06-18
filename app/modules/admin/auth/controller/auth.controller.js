@@ -801,7 +801,7 @@ class AdminAuthController {
             console.log("is otp matched", isOtpMatched);
             if (!isOtpMatched) {
                 req.flash("error", "OTP is incorrect")
-                return res.redirect(`/admin/forgotPasswordOTPPage`)
+                return res.redirect(`/admin/forgotPasswordPage`)
             }
 
             // ask user if they want to change the password
