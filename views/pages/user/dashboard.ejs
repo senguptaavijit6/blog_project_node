@@ -248,7 +248,7 @@
 									<tr>
 										<th>Feature Image</th>
 										<th>Blog Title</th>
-										<th>Private Status</th>
+										<th>Privacy</th>
 										<th>Published status</th>
 										<th>Publish time</th>
 										<th>Likes & Dislikes</th>
@@ -260,7 +260,7 @@
 									<tr>
 										<th>Feature Image</th>
 										<th>Blog Title</th>
-										<th>Private Status</th>
+										<th>Privacy</th>
 										<th>Published status</th>
 										<th>Publish time</th>
 										<th>Likes & Dislikes</th>
@@ -274,7 +274,7 @@
 									<tr>
 										<td><img src="/uploads/blog_image/<%= blogData.image %>" class="" style="height: 50px; width: 50px; object-fit: cover; border-radius: 100px;" /></td>
 										<td><span title="<%= blogData.title %>"><%= blogData.title.length > 10 ? `${blogData.title.slice(0, 10)}...` : blogData.title %></span></td>
-										<td><span style="background-color: <%= blogData.isPrivate ? '#ea545512' : '#28c76f12' %>; color: <%= blogData.isPublished ? '#28c76f' : '#ea5455' %>; padding: 2px 10px 5px; border-radius: 100px; ">
+										<td><span style="background-color: <%= blogData.isPrivate ? '#ea545512' : '#28c76f12' %>; color: <%= blogData.isPrivate ? '#ea5455' : '#28c76f' %>; padding: 2px 10px 5px; border-radius: 100px; ">
 											<%= blogData.isPrivate ? 'Private' : 'Public' %>
 										</span></td>
 										<td><span style="background-color: <%= blogData.isPublished ? '#28c76f12' : '#ea545512' %>; color: <%= blogData.isPublished ? '#28c76f' : '#ea5455' %>; padding: 2px 10px 5px; border-radius: 100px; ">
@@ -300,17 +300,33 @@
 									<% }) %>
 									<% blogsData.unpublished.map(blogData => { %>
 									<tr>
-										<td><img src="/uploads/blog_image/<%= blogData.image %>" class="" style="height: 50px; width: 50px; object-fit: cover; border-radius: 100px;" /></td>
-										<td><span title="<%= blogData.title %>"><%= blogData.title.length > 10 ? `${blogData.title.slice(0, 10)}...` : blogData.title %></span></td>
-										<td><span style="background-color: <%= blogData.isPublished ? '#28c76f12' : '#ea545512' %>; color: <%= blogData.isPublished ? '#28c76f' : '#ea5455' %>; padding: 2px 10px 5px; border-radius: 100px; ">
+										<td class="td1"><img src="/uploads/blog_image/<%= blogData.image %>" class="" style="height: 50px; width: 50px; object-fit: cover; border-radius: 100px;" /></td>
+										<td class="td2"><span title="<%= blogData.title %>"><%= blogData.title.length > 10 ? `${blogData.title.slice(0, 10)}...` : blogData.title %></span></td>
+										<td class="td3"><span style="background-color: <%= blogData.isPrivate ? '#ea545512' : '#28c76f12' %>; color: <%= blogData.isPrivate ? '#ea5455' : '#28c76f' %>; padding: 2px 10px 5px; border-radius: 100px; ">
+											<%= blogData.isPrivate ? 'Private' : 'Public' %>
+										</span></td>
+										<td class="td4"><span style="background-color: <%= blogData.isPublished ? '#28c76f12' : '#ea545512' %>; color: <%= blogData.isPublished ? '#28c76f' : '#ea5455' %>; padding: 2px 10px 5px; border-radius: 100px; ">
 												<%= blogData.isPublished ? 'Published' : 'Unpublished' %>
 											</span></td>
-										<td><%- blogData.publishAt.length > 25 ? `${blogData.publishAt.slice(0, 25)}...` : blogData.publishAt %></td>
-										<td>
+										<td class="td5"><%- blogData.publishAt.length > 25 ? `${blogData.publishAt.slice(0, 25)}...` : blogData.publishAt %></td>
+										<td class="td6">
 											<img src="/assets/img/love.gif" alt="User Likes Symbol" title="User likes" style="height: 50px; width: 50px; object-fit: contain; padding-right: 10px;"><%= blogData.likedByUsersCount %>
 											<img src="/assets/img/hypertension.gif" alt="Admin Likes Symbol" title="Admin likes" style="height: 50px; width: 50px; object-fit: contain; padding-right: 10px;"><%= blogData.likedByAdminsCount %>
 										</td>
-										<td>
+										<% if(Array.isArray(likes) && likes.length > 0) { %>
+											<td class="td7">
+												<% likes.map(likeObj => { %>
+													<% if(likeObj._id.toString() == blogData._id.toString()) { %>
+														<img src="/assets/img/heart.gif" alt="User Likes Symbol" title="Likes" style="height: 50px; width: 50px; object-fit: contain; padding-right: 10px;"><%= likeObj.likedCount  %>
+													<% } %>
+													<% if(likeObj._id.toString() == blogData._id.toString()) { %>
+														<img src="/assets/img/dislike.gif" alt="User Likes Symbol" title="Dislikes" style="height: 50px; width: 50px; object-fit: contain; padding-right: 10px;"><%= likeObj.dislikedCount  %>
+													<% } %>
+												<% }) %>
+											</td>
+										<% } %>
+										<td class="td8"><%= blogData.views?.length || 0 %></td>
+										<td class="td9">
 											<a href="/blogDetails/<%= blogData._id %>" class="btn btn-secondary"><i class="fa-solid fa-circle-info"></i> Details</a>
 											<a href="/deleteBlog/<%= blogData._id %>" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
 										</td>

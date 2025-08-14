@@ -273,9 +273,9 @@ class UserBlogsController {
             const isBlogAvaiable = await BlogsRepo.getBlogById(req.params.id)
             if (!isBlogAvaiable) {
                 req.flash("error", "Invalid blog details, Blog may be deleted")
-                return res.redirect("/getAllBlogsByUserPage")
+                return res.redirect("/dashboard")
             }
-            const hasPermission = false
+            let hasPermission = false
             if (user.role === "admin") {
                 hasPermission = true
             } else if (user.role !== "admin") {
@@ -284,15 +284,18 @@ class UserBlogsController {
 
             if (!hasPermission) {
                 req.flash("error", "you don't have permission to delete this blog")
-                return res.redirect("/admin/getAllBlogsByUserPage")
+                return res.redirect("/dashboard")
             }
             const deleteBlogResponse = await BlogsRepo.deleteBlog(req.params.id, user._id)
-            if (!deleteBlogResponse) {
+            const redirectPath = user.role === "admin" ? "/admin/dashboard" : "/dashboard"
+
+            if (deleteBlogResponse) {
+                req.flash("success", "Blog deleted successfully")
+            } else {
                 req.flash("error", "Blog couldn't be deleted, try again")
-                return res.redirect("/getAllBlogsByUserPage")
             }
-            req.flash("success", "Blog deleted successfully")
-            return res.redirect("/getAllBlogsByUserPage")
+
+            return res.redirect(redirectPath)
         } catch (error) {
             console.error("Error in UserBlogsController -> deleteBlogById: ", error);
             res.status(500).json({ message: "Internal Server Error" });
